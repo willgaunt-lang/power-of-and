@@ -10,10 +10,18 @@ const money = (n, compact=false) => new Intl.NumberFormat('en-US', {
 const num = id => Number($(id).value) || 0;
 const plural = (n, one, many=`${one}s`) => Math.abs(n) === 1 ? one : many;
 
-function alternativeRoomsAt(timeYears, startingRooms, targetRooms, delay) {
+// Snapshot logic: at the exact selected time, the alternative has just caught up.
+function alternativeRoomsAtSnapshot(timeYears, startingRooms, targetRooms, delay) {
   if (startingRooms >= targetRooms) return startingRooms;
   if (delay === 'never') return startingRooms;
   return timeYears >= Number(delay) ? targetRooms : startingRooms;
+}
+
+// Production-period logic: a 3-year selection includes the full period ending at year 3.
+function alternativeRoomsDuringPeriod(periodEndYears, startingRooms, targetRooms, delay) {
+  if (startingRooms >= targetRooms) return startingRooms;
+  if (delay === 'never') return startingRooms;
+  return periodEndYears <= Number(delay) ? startingRooms : targetRooms;
 }
 
 function calculate() {
@@ -36,31 +44,36 @@ function calculate() {
   const roomAdvantage = dciRooms - altRooms;
   const currentAnnualProfitAdvantage = roomAdvantage * revenue * margin;
 
-  // Use half-year periods so 0.5-year selections are modeled correctly.
   const comparisonYears = delay === 'never' ? yearsToRetire : Math.min(Number(delay), yearsToRetire);
   const periods = Math.max(0, Math.round(comparisonYears * 2));
   const halfYearReturn = Math.pow(1 + annualReturn, 0.5) - 1;
+
   let totalProfitAdvantage = 0;
-  let retirementValue = signedCapitalDifference * Math.pow(1 + annualReturn, yearsToRetire);
+  const capitalFutureValue = signedCapitalDifference * Math.pow(1 + annualReturn, yearsToRetire);
+  let profitFutureValue = 0;
   const chartLabels = ['Today'];
   const chartSeries = [0];
   let cumulativeAdvantage = 0;
 
+  // Model each six-month production period and invest its profit at period end.
   for (let period = 1; period <= periods; period++) {
-    const timeYears = period / 2;
-    const altRoomsInService = alternativeRoomsAt(timeYears, altRooms, dciRooms, delay);
-    const revenueGrowthFactor = Math.pow(1 + growth, timeYears - 0.5);
+    const periodEndYears = period / 2;
+    const periodStartYears = periodEndYears - 0.5;
+    const altRoomsInService = alternativeRoomsDuringPeriod(periodEndYears, altRooms, dciRooms, delay);
+    const revenueGrowthFactor = Math.pow(1 + growth, periodStartYears);
     const halfYearProfitDifference = (dciRooms - altRoomsInService) * revenue * revenueGrowthFactor * margin * 0.5;
 
     totalProfitAdvantage += halfYearProfitDifference;
     cumulativeAdvantage += halfYearProfitDifference;
 
-    const remainingHalfYears = Math.max(0, Math.round((yearsToRetire - timeYears) * 2));
-    retirementValue += halfYearProfitDifference * Math.pow(1 + halfYearReturn, remainingHalfYears);
+    const remainingYears = Math.max(0, yearsToRetire - periodEndYears);
+    profitFutureValue += halfYearProfitDifference * Math.pow(1 + annualReturn, remainingYears);
 
-    chartLabels.push(timeYears % 1 === 0 ? `Year ${timeYears}` : `${timeYears} yr`);
+    chartLabels.push(periodEndYears % 1 === 0 ? `Year ${periodEndYears}` : `${periodEndYears} yr`);
     chartSeries.push(cumulativeAdvantage);
   }
+
+  const retirementValue = capitalFutureValue + profitFutureValue;
 
   $('roomAdvantage').textContent = roomAdvantage > 0 ? `+${roomAdvantage}` : String(roomAdvantage);
   $('capitalDifference').textContent = `${signedCapitalDifference >= 0 ? '+' : '−'}${money(signedCapitalDifference)}`;
@@ -69,9 +82,11 @@ function calculate() {
     : 'Additional upfront investment for the DCI Edge configuration';
   $('profitDifference').textContent = `${totalProfitAdvantage >= 0 ? '+' : '−'}${money(totalProfitAdvantage)}`;
   $('retirementDifference').textContent = `${retirementValue >= 0 ? '+' : '−'}${money(retirementValue)}`;
+  $('capitalFutureValue').textContent = `${capitalFutureValue >= 0 ? '+' : '−'}${money(capitalFutureValue)}`;
+  $('profitFutureValue').textContent = `${profitFutureValue >= 0 ? '+' : '−'}${money(profitFutureValue)}`;
   $('annualProfitAdvantage').textContent = `${currentAnnualProfitAdvantage >= 0 ? '+' : '−'}${money(currentAnnualProfitAdvantage)}/yr`;
 
-  const delayText = delay === 'never' ? 'never catches up' : `catches up after ${delay} ${plural(Number(delay), 'year')}`;
+  const delayText = delay === 'never' ? 'never catches up' : `catches up at the end of ${delay} ${plural(Number(delay), 'year')}`;
   if (roomAdvantage > 0) {
     $('scenarioSummary').textContent = `DCI Edge opens with ${dciRooms} operatories versus ${altRooms} with the alternative. The alternative ${delayText}.`;
     $('storyHeadline').textContent = `Put ${roomAdvantage} more ${plural(roomAdvantage, 'operatory', 'operatories')} to work from day one.`;
@@ -88,8 +103,8 @@ function calculate() {
 
   $('profitPeriodLabel').textContent = delay === 'never'
     ? `Modeled from today through retirement at age ${retirementAge}`
-    : `Modeled across the ${delay}-year expansion gap`;
-  $('timelineCaption').textContent = delay === 'never' ? 'Alternative never reaches the DCI room count' : `${delay}-year catch-up period`;
+    : `Includes the full ${delay}-year production advantage`;
+  $('timelineCaption').textContent = delay === 'never' ? 'Alternative never reaches the DCI room count' : `Catch-up occurs at the end of year ${delay}`;
 
   renderTimeline(dciRooms, altRooms, delay);
   updateCharts(dciTotal, altTotal, chartLabels, chartSeries);
@@ -103,7 +118,7 @@ function renderTimeline(dciRooms, altRooms, delay) {
   for (let t = 0.5; t <= maxYears; t += 0.5) points.push(t);
 
   points.forEach(time => {
-    const altInService = time === 0 ? altRooms : alternativeRoomsAt(time, altRooms, dciRooms, delay);
+    const altInService = time === 0 ? altRooms : alternativeRoomsAtSnapshot(time, altRooms, dciRooms, delay);
     const maxRooms = Math.max(dciRooms, altRooms, 1);
     const row = document.createElement('div');
     row.className = 'timeline-row';
