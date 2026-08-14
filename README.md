@@ -1,22 +1,32 @@
-# The Power of AND — v0.5
+# The Power of AND — v0.6
 
-Brand-and-experience revision for the DCI Edge Practice Investment Calculator.
+A DCI Edge browser-based sales tool with two calculators:
 
-## What changed
-- Updated primary web palette to DCI blue `#3A6D8E` and Cool Gray 11 `#54565B`.
-- Added a restrained overlapping-triangle fractal treatment inspired by the DCI brand guide.
-- Updated typography stacks for Adelle and Bernina Sans Condensed, with Arial Narrow/system fallbacks.
-- Removed the old Inter/green/teal visual language.
-- Rebuilt desktop assumptions as a clean 2 × 2 guided input grid.
-- Results remain hidden until **Show Me the Power of AND** is selected.
-- After the first reveal, input changes update results live.
-- **Edit Assumptions** returns to the input section.
-- **Reset Example** restores defaults and hides the results again.
-- Chart colors now use DCI blue and Cool Gray.
-- Existing v0.4 financial math is unchanged.
+1. **More Rooms** (`index.html`) — compares DCI Edge and an alternative equipment scenario, including room count, operating profit during a catch-up delay and potential retirement wealth impact.
+2. **The Unbooked Operatory** (`unbooked.html`) — models the economics of activating an existing unused treatment room, with break-even visits per week, financing cash flow, five-year net cash and a long-term wealth illustration.
 
-## Font note
-This project does **not** bundle or redistribute font files. CSS first looks for locally installed Adelle and Bernina Sans Condensed fonts. If unavailable, it falls back to Arial Narrow/Arial for sans-serif text and Georgia for display text. Corporate can add licensed webfont files later if its font license permits web embedding.
+## Files
 
-## Deploy
-Replace `index.html`, `styles.css`, `script.js`, and `README.md` in the GitHub repository, commit, and push. Cloudflare should redeploy automatically.
+- `index.html` — More Rooms calculator
+- `script.js` — More Rooms calculations and charts
+- `unbooked.html` — Unbooked Operatory calculator
+- `unbooked.js` — Unbooked Operatory calculations and charts
+- `styles.css` — shared DCI Edge-branded responsive styles
+
+## Unbooked Operatory model
+
+The model focuses on **incremental economics** for an existing physical room.
+
+- Annual production = additional visits/week × average production/visit × working weeks/year.
+- Variable clinical costs are deducted from that production.
+- Optional incremental staffing cost is deducted.
+- Financing uses standard amortizing-loan math based on the entered down payment, APR and term.
+- Break-even visits/week are the visits required to cover scheduled equipment payments plus entered incremental staffing cost.
+- Five-year net cash includes the initial down payment and monthly equipment payments.
+- The retirement illustration compounds monthly net room cash flow and subtracts the future opportunity cost of the down payment.
+
+Taxes, collection differences, financing fees, replacement costs and changes in utilization are not modeled. Any tax effects should be reviewed with a qualified tax professional.
+
+## Deployment
+
+This is a static site. Commit and push the files to the GitHub repository connected to Cloudflare. Cloudflare will automatically redeploy the latest `main` branch.

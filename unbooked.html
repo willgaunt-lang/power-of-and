@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The Power of AND Unbooked Operatory calculator from DCI Edge." />
+  <title>The Power of AND | The Unbooked Operatory</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <script src="unbooked.js" defer></script>
+</head>
+<body class="unbooked-page">
+  <header class="site-header">
+    <a class="brand" href="unbooked.html#top" aria-label="DCI Edge Power of AND home">
+      <span class="brand-name">DCI EDGE</span>
+      <span class="brand-divider" aria-hidden="true"></span>
+      <span class="brand-campaign">THE POWER OF <strong>AND</strong></span>
+    </a>
+    <nav class="tool-nav" aria-label="Power of AND calculators">
+      <a class="tool-tab" href="index.html">More Rooms</a>
+      <a class="tool-tab active" href="unbooked.html" aria-current="page">Unbooked Operatory</a>
+    </nav>
+    <div class="header-actions">
+      <button class="button button-ghost" id="resetButton" type="button">Reset Example</button>
+      <button class="button button-primary" id="printButton" type="button" disabled>Print Report</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero hero-unbooked" aria-labelledby="heroTitle">
+      <div class="fractal-field" aria-hidden="true">
+        <span class="fractal fractal-one"></span>
+        <span class="fractal fractal-two"></span>
+        <span class="fractal fractal-three"></span>
+      </div>
+      <div class="hero-inner">
+        <p class="eyebrow">The Unbooked Operatory</p>
+        <h1 id="heroTitle">That Room Is Already There. What Could It Be Producing?</h1>
+        <p class="hero-tagline">Turn unused capacity into patient care <strong>AND</strong> cash flow.</p>
+        <p class="hero-lede">See how little additional utilization it may take for an already-built operatory to cover its equipment and begin contributing to the practice.</p>
+        <a class="button button-primary button-large" href="#unbookedBuilder">Value The Room</a>
+      </div>
+    </section>
+
+    <section class="builder-section" id="unbookedBuilder" aria-labelledby="builderTitle">
+      <div class="section-intro centered">
+        <p class="eyebrow">Think About The Last Two Weeks</p>
+        <h2 id="builderTitle">How Often Could One More Room Have Helped?</h2>
+        <p>Emergencies. Schedule delays. Unexpected procedures. Overflow. Start with what the room could realistically do — then see what it takes to pay for the equipment.</p>
+      </div>
+
+      <div class="assumption-grid unbooked-grid">
+        <article class="assumption-card">
+          <div class="step-number">1</div>
+          <div class="card-heading">
+            <h3>Activate The Room</h3>
+            <p>What would it cost to make the existing space patient-ready?</p>
+          </div>
+          <div class="input-grid">
+            <label>Total equipment investment
+              <div class="input-prefix"><span>$</span><input id="equipmentCost" type="number" min="0" step="1000" value="50000"></div>
+            </label>
+          </div>
+        </article>
+
+        <article class="assumption-card assumption-card-featured">
+          <div class="step-number">2</div>
+          <div class="card-heading">
+            <h3>Put It To Work</h3>
+            <p>How many truly additional patient visits could this room accommodate?</p>
+          </div>
+          <div class="input-grid two-col">
+            <label>Additional visits per week
+              <input id="visitsPerWeek" type="number" min="0" max="100" step="0.5" value="4">
+            </label>
+            <label>Average production per visit
+              <div class="input-prefix"><span>$</span><input id="productionPerVisit" type="number" min="0" step="25" value="200"></div>
+            </label>
+          </div>
+          <p class="helper-text">Count only care that the practice could actually add, capture sooner, or avoid losing because the extra room is available.</p>
+        </article>
+
+        <article class="assumption-card">
+          <div class="step-number">3</div>
+          <div class="card-heading">
+            <h3>Practice Economics</h3>
+            <p>Focus on costs that change because the room is used.</p>
+          </div>
+          <div class="input-grid two-col">
+            <label>Working weeks per year
+              <input id="workingWeeks" type="number" min="1" max="52" step="1" value="50">
+            </label>
+            <label>Variable clinical costs
+              <div class="input-suffix"><input id="variableCostPct" type="number" min="0" max="100" step="1" value="9"><span>%</span></div>
+            </label>
+          </div>
+          <p class="helper-text">Variable costs can include supplies, lab expense or other costs that rise with the additional production. Existing rent and fixed overhead are not added again.</p>
+        </article>
+
+        <article class="assumption-card advanced-card">
+          <div class="step-number">+</div>
+          <div class="card-heading">
+            <h3>Advanced Assumptions</h3>
+            <p>The defaults create a straightforward financed-purchase example. Adjust only if useful.</p>
+          </div>
+          <details id="advancedDetails">
+            <summary>Review financing, staffing and long-term assumptions</summary>
+            <div class="input-grid two-col advanced-inputs">
+              <label>Down payment
+                <div class="input-prefix"><span>$</span><input id="downPayment" type="number" min="0" step="1000" value="0"></div>
+              </label>
+              <label>Financing APR
+                <div class="input-suffix"><input id="apr" type="number" min="0" max="30" step="0.25" value="6.5"><span>%</span></div>
+              </label>
+              <label>Financing term
+                <select id="loanTermYears">
+                  <option value="3">3 years</option>
+                  <option value="4">4 years</option>
+                  <option value="5" selected>5 years</option>
+                  <option value="6">6 years</option>
+                  <option value="7">7 years</option>
+                </select>
+              </label>
+              <label>Additional annual staffing cost
+                <div class="input-prefix"><span>$</span><input id="staffCost" type="number" min="0" step="1000" value="0"></div>
+              </label>
+              <label>Current age
+                <input id="currentAge" type="number" min="18" max="80" step="1" value="42">
+              </label>
+              <label>Retirement age
+                <input id="retirementAge" type="number" min="19" max="90" step="1" value="65">
+              </label>
+              <label class="span-two">Expected annual investment return
+                <div class="input-suffix"><input id="returnRate" type="number" min="0" max="20" step="0.5" value="7"><span>%</span></div>
+              </label>
+            </div>
+          </details>
+        </article>
+      </div>
+
+      <div class="reveal-control">
+        <p>Ready to see what this room could do?</p>
+        <button class="button button-primary button-reveal" id="revealButton" type="button">Show Me The Power Of This Room</button>
+        <small>Illustrative model only. Results depend on actual utilization, collections, expenses, financing and staffing.</small>
+      </div>
+    </section>
+
+    <section class="results-section unbooked-results" id="results" hidden aria-live="polite" aria-labelledby="resultsTitle">
+      <div class="results-banner">
+        <div class="fractal-field fractal-results" aria-hidden="true">
+          <span class="fractal fractal-one"></span>
+          <span class="fractal fractal-two"></span>
+          <span class="fractal fractal-three"></span>
+        </div>
+        <div class="results-banner-inner">
+          <p class="eyebrow eyebrow-light">The Unbooked Operatory</p>
+          <h2 id="resultsTitle">The Room Does Not Need To Be Full To Pay For Itself.</h2>
+          <p id="scenarioSummary">Your room story will appear here.</p>
+          <button class="button button-light" id="editButton" type="button">Edit Assumptions</button>
+        </div>
+      </div>
+
+      <div class="results-content">
+        <article class="break-even-hero">
+          <div class="break-even-copy">
+            <p class="eyebrow">Break-Even Utilization</p>
+            <span class="break-even-kicker">This room needs approximately</span>
+            <strong id="breakEvenVisits">0.0</strong>
+            <span class="break-even-unit">additional visits per week</span>
+            <p id="breakEvenExplanation">to cover the equipment payment and entered incremental costs.</p>
+          </div>
+          <div class="utilization-gauge" aria-label="Entered visits compared with break-even visits">
+            <div class="gauge-labels"><span>Break-even</span><span id="enteredVisitsLabel">Entered: 0/week</span></div>
+            <div class="gauge-track"><span id="breakEvenMarker" class="gauge-marker"></span><span id="enteredVisitsBar" class="gauge-fill"></span></div>
+            <p id="utilizationStory"></p>
+          </div>
+        </article>
+
+        <article class="room-transformation" aria-labelledby="roomTransformTitle">
+          <div class="room-state room-state-storage">
+            <div class="room-icon" aria-hidden="true">
+              <svg viewBox="0 0 180 120" role="img" aria-label="Abstract storage room">
+                <rect x="14" y="18" width="152" height="88" rx="2"></rect>
+                <rect x="32" y="65" width="38" height="25"></rect>
+                <rect x="74" y="54" width="42" height="36"></rect>
+                <rect x="121" y="69" width="27" height="21"></rect>
+                <path d="M51 65v25M95 54v36M134 69v21"></path>
+              </svg>
+            </div>
+            <span>Today</span>
+            <h3>Unbooked</h3>
+            <strong>$0</strong>
+            <small>clinical production from the room</small>
+          </div>
+          <div class="room-arrow" aria-hidden="true">AND</div>
+          <div class="room-state room-state-active">
+            <div class="room-icon" aria-hidden="true">
+              <svg viewBox="0 0 180 120" role="img" aria-label="Abstract equipped operatory">
+                <rect x="14" y="18" width="152" height="88" rx="2"></rect>
+                <path d="M55 77h70M69 77l8-34h27l8 34M83 43v-9h14v9M90 77v17M72 94h36"></path>
+                <circle cx="90" cy="32" r="7"></circle>
+              </svg>
+            </div>
+            <span>Activated</span>
+            <h3>Patient-Ready</h3>
+            <strong id="annualProductionVisual">$0</strong>
+            <small>projected annual production at entered utilization</small>
+          </div>
+        </article>
+
+        <div class="metric-grid unbooked-metrics">
+          <article class="metric-card">
+            <span>Monthly equipment payment</span>
+            <strong id="monthlyPayment">$0</strong>
+            <small id="financingNote">Based on the entered financing assumptions</small>
+          </article>
+          <article class="metric-card">
+            <span>Annual cash flow during financing</span>
+            <strong id="annualCashFlow">$0</strong>
+            <small>After variable costs, added staffing and scheduled equipment payments</small>
+          </article>
+          <article class="metric-card">
+            <span>5-year net cash generated</span>
+            <strong id="fiveYearCash">$0</strong>
+            <small>Operating contribution minus down payment and equipment payments during the first five years</small>
+          </article>
+          <article class="metric-card metric-featured">
+            <span>Potential additional wealth at retirement</span>
+            <strong id="retirementWealth">$0</strong>
+            <small>If the entered room utilization continues and net room cash flow is invested</small>
+            <div class="wealth-breakdown">
+              <span>After loan payoff / year <b id="postLoanContribution">$0</b></span>
+              <span>Years to retirement <b id="yearsToRetirement">0</b></span>
+            </div>
+          </article>
+        </div>
+
+        <article class="story-card unbooked-story">
+          <div>
+            <p class="eyebrow">The No-Brainer Test</p>
+            <h3 id="storyHeadline">How much of the room's capacity do you really need?</h3>
+            <p id="storyCopy"></p>
+          </div>
+          <div class="story-amount" id="breakEvenRatio">0×</div>
+        </article>
+
+        <div class="chart-grid">
+          <article class="chart-card">
+            <div class="chart-heading"><div><p class="eyebrow">Five-Year View</p><h3>Cumulative Net Cash From The Room</h3></div></div>
+            <div class="chart-wrap"><canvas id="cashChart"></canvas></div>
+          </article>
+          <article class="chart-card">
+            <div class="chart-heading"><div><p class="eyebrow">Monthly Economics</p><h3>Room Contribution vs. Equipment Payment</h3></div></div>
+            <div class="chart-wrap"><canvas id="monthlyChart"></canvas></div>
+          </article>
+        </div>
+
+        <article class="method-card">
+          <h3>How This Estimate Works</h3>
+          <p>The calculator treats the room as existing space and focuses on incremental economics. Annual room production equals additional visits per week × average production per visit × working weeks. Variable clinical costs and any additional staffing cost are deducted. The financed equipment payment is calculated from the entered down payment, APR and term. Break-even visits per week are the visits required for the room's incremental contribution to cover the scheduled equipment payment and entered additional staffing cost. The retirement illustration compounds the room's monthly net cash flow after equipment payments, subtracts the opportunity cost of any down payment, and assumes the room continues at the entered utilization through retirement. Taxes, collection differences, financing fees, replacement costs and changes in utilization are not modeled.</p>
+          <p class="method-note">Potential tax deductions or depreciation are intentionally excluded. Consult a qualified tax professional regarding the tax treatment of equipment purchases.</p>
+        </article>
+
+        <section class="cross-tool-section cross-tool-inside" aria-label="Explore the More Rooms calculator">
+          <div class="cross-tool-card">
+            <div>
+              <p class="eyebrow">Planning A New Office Or Expansion?</p>
+              <h2>See what happens when the same budget puts more rooms to work on day one.</h2>
+            </div>
+            <a class="button button-primary" href="index.html">Explore More Rooms</a>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>The Power of AND</strong>
+    <span>More capacity today <em>and</em> more possibilities tomorrow.</span>
+    <small>© <span id="currentYear"></span> DCI Edge. Illustrative calculator.</small>
+  </footer>
+</body>
+</html>

@@ -91,3 +91,56 @@ footer{background:var(--dci-gray);color:#fff;text-align:center;padding:48px 20px
 @media(max-width:520px){body{font-size:16px}.site-header{padding:12px 14px}.brand-name{font-size:21px}.header-actions{width:100%}.header-actions .button{flex:1}.hero{padding:64px 20px 70px}.hero h1{font-size:46px}.hero-lede{font-size:18px}.builder-section{padding:58px 12px 72px}.assumption-card{padding:24px 18px}.input-grid.two-col{grid-template-columns:1fr}.span-two{grid-column:auto}.results-content{padding:38px 12px 66px}.results-banner{padding:54px 18px}.metric-card,.story-card,.chart-card,.timeline-card,.method-card{padding-left:18px;padding-right:18px}.chart-wrap{height:260px}.chart-heading{flex-direction:column}.timeline-row{grid-template-columns:50px minmax(0,1fr)}.button-reveal{min-width:0;width:100%}}
 
 @media print{.site-header,.hero,.builder-section,.button{display:none!important}body{background:#fff}.results-section[hidden]{display:block!important}.results-banner{padding:30px;background:var(--dci-blue)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.results-content{padding:20px 0}.metric-grid{grid-template-columns:repeat(2,1fr)}.chart-grid{grid-template-columns:repeat(2,1fr)}.chart-wrap{height:230px}.results-content>*{break-inside:avoid}footer{margin-top:20px}}
+
+/* --- Shared calculator navigation --- */
+.tool-nav{display:flex;align-items:center;justify-content:center;gap:4px;padding:4px;background:#f0f2f3;border:1px solid var(--line);border-radius:4px;margin-left:auto}
+.tool-tab{padding:8px 12px;text-decoration:none;color:var(--dci-gray);font-size:14px;font-weight:700;border-radius:2px;white-space:nowrap}
+.tool-tab:hover{color:var(--dci-blue);background:#fff}
+.tool-tab.active{background:var(--dci-blue);color:#fff}
+.cross-tool-section{padding:0 24px 76px;background:#fff}
+.cross-tool-card{max-width:1180px;margin:0 auto;padding:30px 34px;border:1px solid var(--line);border-left:5px solid var(--dci-blue);display:flex;align-items:center;justify-content:space-between;gap:28px;background:var(--soft-blue)}
+.cross-tool-card h2{font-family:var(--font-display);font-weight:400;color:var(--dci-blue);font-size:30px;line-height:1.12;margin:0 0 7px}
+.cross-tool-card p:last-child{margin:0;max-width:780px}
+.cross-tool-inside{padding:0;background:transparent}.cross-tool-inside .cross-tool-card{max-width:none}
+
+/* --- Unbooked Operatory --- */
+.hero-unbooked .hero-inner{max-width:990px}
+.unbooked-grid .assumption-card-featured{border-top:5px solid var(--dci-blue);padding-top:24px}
+.advanced-card details{border-top:1px solid var(--line);padding-top:12px}
+.advanced-card summary{cursor:pointer;color:var(--dci-blue);font-weight:800;list-style-position:outside;margin-left:18px;padding:5px 0}
+.advanced-card summary::marker{color:var(--dci-blue)}
+.advanced-inputs{margin-top:18px}
+
+.break-even-hero{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:42px;align-items:center;border:1px solid var(--line);padding:34px;background:#fff}
+.break-even-copy{display:grid;justify-items:start}
+.break-even-kicker{font-family:var(--font-display);font-size:23px;color:var(--dci-gray);margin-top:4px}
+.break-even-copy>strong{font-family:var(--font-sans);font-weight:800;font-size:clamp(74px,9vw,126px);line-height:.82;color:var(--dci-blue);letter-spacing:-2px;margin:10px 0 7px}
+.break-even-unit{font-size:24px;font-weight:800;color:var(--dci-blue);line-height:1.1}
+.break-even-copy>p:last-child{font-size:14px;color:#7f8285;max-width:480px;margin:14px 0 0}
+.utilization-gauge{padding:28px;border-left:1px solid var(--line)}
+.gauge-labels{display:flex;justify-content:space-between;gap:14px;font-size:14px;font-weight:800;color:var(--dci-gray);margin-bottom:9px}
+.gauge-track{position:relative;height:22px;background:#e7eaeb;overflow:visible}
+.gauge-fill{position:absolute;left:0;top:0;bottom:0;background:var(--dci-blue);transition:width .35s ease}
+.gauge-marker{position:absolute;top:-8px;bottom:-8px;width:3px;background:var(--dci-gray);z-index:2;transition:left .35s ease}
+.gauge-marker::before{content:'BE';position:absolute;left:50%;top:-22px;transform:translateX(-50%);font-size:10px;font-weight:800;color:var(--dci-gray)}
+.utilization-gauge p{margin:18px 0 0;color:#6f7276;line-height:1.4}
+
+.room-transformation{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:22px;align-items:stretch}
+.room-state{border:1px solid var(--line);padding:24px;display:grid;justify-items:center;text-align:center;background:#fff;min-width:0}
+.room-state>span{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;font-weight:800;color:#8b8e91}
+.room-state h3{font-family:var(--font-display);font-size:30px;font-weight:400;color:var(--dci-blue);margin:3px 0 4px}
+.room-state>strong{font-size:42px;line-height:1;font-weight:800;color:var(--dci-blue);overflow-wrap:anywhere}
+.room-state small{color:#8a8d90;margin-top:7px;font-size:12px}
+.room-state-storage{background:#f4f5f5}.room-state-storage h3,.room-state-storage>strong{color:var(--dci-gray)}
+.room-icon{width:min(100%,240px);margin-bottom:13px}.room-icon svg{width:100%;height:auto;fill:none;stroke:currentColor;stroke-width:3;color:var(--dci-gray);opacity:.72}
+.room-state-active .room-icon svg{color:var(--dci-blue)}
+.room-arrow{align-self:center;display:grid;place-items:center;width:70px;height:70px;border-radius:50%;background:var(--dci-blue);color:#fff;font-size:14px;font-weight:800;letter-spacing:1.2px}
+.unbooked-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
+.unbooked-story .story-amount{font-size:58px}
+.method-note{margin-top:12px!important;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:#898c8f!important}
+
+@media(max-width:1180px){.site-header{flex-wrap:wrap}.tool-nav{order:3;width:100%;margin:0}.tool-tab{flex:1;text-align:center}.unbooked-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){.break-even-hero{grid-template-columns:1fr;gap:22px}.utilization-gauge{border-left:0;border-top:1px solid var(--line);padding:28px 0 0}.room-transformation{grid-template-columns:1fr}.room-arrow{justify-self:center;transform:rotate(90deg)}.cross-tool-card{align-items:flex-start;flex-direction:column}.unbooked-metrics{grid-template-columns:1fr}}
+@media(max-width:520px){.tool-nav{overflow:hidden}.tool-tab{font-size:13px;padding:8px 6px}.cross-tool-section{padding-left:12px;padding-right:12px}.cross-tool-card{padding:24px 18px}.break-even-hero{padding:24px 18px}.break-even-copy>strong{font-size:78px}.break-even-unit{font-size:20px}.room-state{padding:20px 16px}.room-arrow{width:58px;height:58px}.unbooked-story .story-amount{font-size:46px}}
+
+@media print{.tool-nav,.cross-tool-section{display:none!important}.break-even-hero,.room-transformation{break-inside:avoid}.break-even-hero{grid-template-columns:1fr 1fr}.room-transformation{grid-template-columns:1fr auto 1fr}.advanced-card{display:none!important}}
