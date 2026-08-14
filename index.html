@@ -3,11 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="The Power of AND practice investment calculator." />
+  <meta name="description" content="The Power of AND practice investment calculator from DCI Edge." />
   <title>The Power of AND | Practice Investment Calculator</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
   <script src="script.js" defer></script>
@@ -15,63 +12,77 @@
 <body>
   <header class="site-header">
     <a class="brand" href="#top" aria-label="DCI Edge Power of AND home">
-      <span class="brand-dci">DCI</span><span class="brand-edge">EDGE</span>
-      <span class="brand-divider"></span>
+      <span class="brand-name">DCI EDGE</span>
+      <span class="brand-divider" aria-hidden="true"></span>
       <span class="brand-campaign">THE POWER OF <strong>AND</strong></span>
     </a>
     <div class="header-actions">
-      <button class="button button-ghost" id="resetButton" type="button">Reset example</button>
-      <button class="button button-primary" id="printButton" type="button">Print report</button>
+      <button class="button button-ghost" id="resetButton" type="button">Reset Example</button>
+      <button class="button button-primary" id="printButton" type="button" disabled>Print Report</button>
     </div>
   </header>
 
   <main id="top">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Practice Investment Calculator</p>
-        <h1>More rooms <span>and</span> more opportunity.</h1>
-        <p class="hero-lede">Compare what the same equipment budget can put into service today—and what those additional operatories could produce over time.</p>
-        <a class="button button-primary button-large" href="#calculator">Build your scenario</a>
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="fractal-field" aria-hidden="true">
+        <span class="fractal fractal-one"></span>
+        <span class="fractal fractal-two"></span>
+        <span class="fractal fractal-three"></span>
       </div>
-      <div class="hero-panel" aria-label="Power of AND benefits">
-        <div><strong>Equip more</strong><span>operatories within the available budget</span></div>
-        <div><strong>Produce sooner</strong><span>with more rooms working from day one</span></div>
-        <div><strong>Grow faster</strong><span>without waiting as long to reach capacity</span></div>
-        <div><strong>Build wealth</strong><span>by investing the financial difference</span></div>
+      <div class="hero-inner">
+        <p class="eyebrow">Practice Investment Calculator</p>
+        <h1 id="heroTitle">More Rooms. More Technology. More Possibility.</h1>
+        <p class="hero-tagline">That’s the <strong>Power of AND.</strong></p>
+        <p class="hero-lede">See how an equipment investment can influence clinical capacity, practice growth and long-term wealth.</p>
+        <a class="button button-primary button-large" href="#builder">Build Your Scenario</a>
       </div>
     </section>
 
-    <section class="calculator-shell" id="calculator">
-      <aside class="inputs-panel">
-        <div class="section-heading">
-          <p class="eyebrow">Your practice growth story</p>
-          <h2>Build the comparison</h2>
-          <p>Start with the rooms each option puts into service.</p>
-        </div>
+    <section class="builder-section" id="builder" aria-labelledby="builderTitle">
+      <div class="section-intro centered">
+        <p class="eyebrow">Your Practice Growth Story</p>
+        <h2 id="builderTitle">Build Your Scenario</h2>
+        <p>Answer the four questions below first. Your results stay hidden until you are ready to reveal the impact.</p>
+      </div>
 
-        <details open>
-          <summary>1. Equipment investment</summary>
-          <div class="input-grid">
+      <div class="assumption-grid">
+        <article class="assumption-card">
+          <div class="step-number">1</div>
+          <div class="card-heading">
+            <h3>Equipment Investment</h3>
+            <p>How many operatories does each option put into service today?</p>
+          </div>
+          <div class="input-grid two-col">
             <label>DCI Edge operatories<input id="dciRooms" type="number" min="1" max="30" step="1" value="5"></label>
             <label>DCI Edge cost per operatory<div class="input-prefix"><span>$</span><input id="dciCost" type="number" min="0" step="1000" value="22000"></div></label>
             <label>Alternative operatories<input id="altRooms" type="number" min="1" max="30" step="1" value="3"></label>
             <label>Alternative cost per operatory<div class="input-prefix"><span>$</span><input id="altCost" type="number" min="0" step="1000" value="37000"></div></label>
           </div>
-        </details>
+        </article>
 
-        <details open>
-          <summary>2. Practice economics</summary>
+        <article class="assumption-card">
+          <div class="step-number">2</div>
+          <div class="card-heading">
+            <h3>Practice Economics</h3>
+            <p>What does a productive operatory contribute to the practice?</p>
+          </div>
           <div class="input-grid">
             <label>Annual revenue per operatory<div class="input-prefix"><span>$</span><input id="revenuePerRoom" type="number" min="0" step="5000" value="250000"></div></label>
-            <label>Operating profit margin<div class="input-suffix"><input id="margin" type="number" min="0" max="100" step="1" value="35"><span>%</span></div></label>
-            <label>Annual revenue growth<div class="input-suffix"><input id="growth" type="number" min="0" max="30" step="0.5" value="3"><span>%</span></div></label>
+            <div class="input-grid two-col compact-grid">
+              <label>Operating profit margin<div class="input-suffix"><input id="margin" type="number" min="0" max="100" step="1" value="35"><span>%</span></div></label>
+              <label>Annual revenue growth<div class="input-suffix"><input id="growth" type="number" min="0" max="30" step="0.5" value="3"><span>%</span></div></label>
+            </div>
           </div>
-        </details>
+        </article>
 
-        <details open>
-          <summary>3. Growth plan</summary>
+        <article class="assumption-card">
+          <div class="step-number">3</div>
+          <div class="card-heading">
+            <h3>Growth Plan</h3>
+            <p>When does the alternative reach the DCI Edge room count?</p>
+          </div>
           <div class="input-grid">
-            <label>When does the alternative reach the DCI room count?
+            <label>Alternative catch-up timing
               <select id="delayYears">
                 <option value="0.5">0.5 year</option>
                 <option value="1">1 year</option>
@@ -85,42 +96,58 @@
                 <option value="5">5 years</option>
                 <option value="never">Never</option>
               </select>
-              <small>A selection of 3 years means the alternative catches up at the end of year 3, after three full years of the DCI room advantage.</small>
             </label>
+            <p class="helper-text">A selection of 3 years means the alternative catches up at the end of year 3, after three full years of the DCI Edge room advantage.</p>
           </div>
-        </details>
+        </article>
 
-        <details open>
-          <summary>4. Retirement outlook</summary>
-          <div class="input-grid">
+        <article class="assumption-card">
+          <div class="step-number">4</div>
+          <div class="card-heading">
+            <h3>Retirement Outlook</h3>
+            <p>How much time does the financial difference have to compound?</p>
+          </div>
+          <div class="input-grid two-col">
             <label>Current age<input id="currentAge" type="number" min="18" max="80" step="1" value="42"></label>
             <label>Retirement age<input id="retirementAge" type="number" min="19" max="90" step="1" value="65"></label>
-            <label>Expected annual investment return<div class="input-suffix"><input id="returnRate" type="number" min="0" max="20" step="0.5" value="7"><span>%</span></div></label>
+            <label class="span-two">Expected annual investment return<div class="input-suffix"><input id="returnRate" type="number" min="0" max="20" step="0.5" value="7"><span>%</span></div></label>
           </div>
-        </details>
+        </article>
+      </div>
 
-        <div class="assumption-note">
-          <strong>Illustrative model:</strong> “Potential additional wealth” assumes the initial investment difference and the additional profit produced while the DCI scenario has more rooms are invested until retirement. It is not a forecast or financial recommendation.
+      <div class="reveal-control">
+        <p>Ready to see what these assumptions could mean?</p>
+        <button class="button button-primary button-reveal" id="revealButton" type="button">Show Me the Power of AND</button>
+        <small>Illustrative model only. Results are based on the assumptions entered above.</small>
+      </div>
+    </section>
+
+    <section class="results-section" id="results" hidden aria-live="polite" aria-labelledby="resultsTitle">
+      <div class="results-banner">
+        <div class="fractal-field fractal-results" aria-hidden="true">
+          <span class="fractal fractal-one"></span>
+          <span class="fractal fractal-two"></span>
+          <span class="fractal fractal-three"></span>
         </div>
-      </aside>
-
-      <section class="results-panel" aria-live="polite">
-        <div class="results-intro">
-          <p class="eyebrow">The Power of AND</p>
-          <h2>What becomes possible?</h2>
+        <div class="results-banner-inner">
+          <p class="eyebrow eyebrow-light">The Power of AND</p>
+          <h2 id="resultsTitle">What Becomes Possible?</h2>
           <p id="scenarioSummary">Your comparison will appear here.</p>
+          <button class="button button-light" id="editButton" type="button">Edit Assumptions</button>
         </div>
+      </div>
 
+      <div class="results-content">
         <div class="metric-grid">
           <article class="metric-card"><span>More operatories on day one</span><strong id="roomAdvantage">0</strong><small>Difference between the two opening configurations</small></article>
           <article class="metric-card"><span>Initial investment difference</span><strong id="capitalDifference">$0</strong><small id="capitalDifferenceNote">Difference between the two equipment packages</small></article>
-          <article class="metric-card"><span>Additional profit before catch-up</span><strong id="profitDifference">$0</strong><small id="profitPeriodLabel">Produced while the DCI scenario has more rooms</small></article>
+          <article class="metric-card"><span>Additional profit before catch-up</span><strong id="profitDifference">$0</strong><small id="profitPeriodLabel">Produced while the DCI Edge scenario has more rooms</small></article>
           <article class="metric-card metric-featured"><span>Potential additional wealth at retirement</span><strong id="retirementDifference">$0</strong><small>Future value if the financial difference is invested</small><div class="wealth-breakdown"><span>From upfront capital <b id="capitalFutureValue">$0</b></span><span>From added operating profit <b id="profitFutureValue">$0</b></span></div></article>
         </div>
 
         <article class="story-card">
           <div>
-            <p class="eyebrow">The same-budget story</p>
+            <p class="eyebrow">The Same-Budget Story</p>
             <h3 id="storyHeadline">Put more rooms to work sooner.</h3>
             <p id="storyCopy"></p>
           </div>
@@ -129,25 +156,25 @@
 
         <div class="chart-grid">
           <article class="chart-card">
-            <div class="chart-heading"><div><p class="eyebrow">Upfront decision</p><h3>Total equipment investment</h3></div></div>
+            <div class="chart-heading"><div><p class="eyebrow">Upfront Decision</p><h3>Total Equipment Investment</h3></div></div>
             <div class="chart-wrap"><canvas id="costChart"></canvas></div>
           </article>
           <article class="chart-card">
-            <div class="chart-heading"><div><p class="eyebrow">Practice impact</p><h3>Cumulative operating profit advantage</h3></div></div>
+            <div class="chart-heading"><div><p class="eyebrow">Practice Impact</p><h3>Cumulative Operating Profit Advantage</h3></div></div>
             <div class="chart-wrap"><canvas id="profitChart"></canvas></div>
           </article>
         </div>
 
         <article class="timeline-card">
-          <div class="chart-heading"><div><p class="eyebrow">Expansion view</p><h3>Operatories in service</h3></div><span id="timelineCaption"></span></div>
+          <div class="chart-heading"><div><p class="eyebrow">Expansion View</p><h3>Operatories in Service</h3></div><span id="timelineCaption"></span></div>
           <div id="timeline" class="timeline"></div>
         </article>
 
         <article class="method-card">
-          <h3>How this estimate works</h3>
-          <p>Total equipment investment equals operatories × cost per operatory for each option. The operating-profit advantage comes from the extra rooms in service before the alternative reaches the DCI room count. Half-year selections are calculated as complete six-month production periods. For example, a 3-year selection includes all six half-year periods before the alternative catches up at the end of year 3. The retirement illustration grows the upfront capital difference from today and deposits each period’s added operating profit when it is earned, then compounds each amount through the selected retirement age.</p>
+          <h3>How This Estimate Works</h3>
+          <p>Total equipment investment equals operatories × cost per operatory for each option. The operating-profit advantage comes from the extra rooms in service before the alternative reaches the DCI Edge room count. Half-year selections are calculated as complete six-month production periods. For example, a 3-year selection includes all six half-year periods before the alternative catches up at the end of year 3. The retirement illustration grows the upfront capital difference from today and deposits each period’s added operating profit when it is earned, then compounds each amount through the selected retirement age.</p>
         </article>
-      </section>
+      </div>
     </section>
   </main>
 

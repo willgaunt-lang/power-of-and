@@ -2,6 +2,7 @@ const $ = id => document.getElementById(id);
 const inputIds = ['dciRooms','dciCost','altRooms','altCost','revenuePerRoom','margin','growth','delayYears','currentAge','retirementAge','returnRate'];
 const defaults = {dciRooms:5,dciCost:22000,altRooms:3,altCost:37000,revenuePerRoom:250000,margin:35,growth:3,delayYears:'2',currentAge:42,retirementAge:65,returnRate:7};
 let costChart, profitChart;
+let hasRevealed = false;
 
 const money = (n, compact=false) => new Intl.NumberFormat('en-US', {
   style:'currency', currency:'USD', maximumFractionDigits:0,
@@ -10,14 +11,12 @@ const money = (n, compact=false) => new Intl.NumberFormat('en-US', {
 const num = id => Number($(id).value) || 0;
 const plural = (n, one, many=`${one}s`) => Math.abs(n) === 1 ? one : many;
 
-// Snapshot logic: at the exact selected time, the alternative has just caught up.
 function alternativeRoomsAtSnapshot(timeYears, startingRooms, targetRooms, delay) {
   if (startingRooms >= targetRooms) return startingRooms;
   if (delay === 'never') return startingRooms;
   return timeYears >= Number(delay) ? targetRooms : startingRooms;
 }
 
-// Production-period logic: a 3-year selection includes the full period ending at year 3.
 function alternativeRoomsDuringPeriod(periodEndYears, startingRooms, targetRooms, delay) {
   if (startingRooms >= targetRooms) return startingRooms;
   if (delay === 'never') return startingRooms;
@@ -46,7 +45,6 @@ function calculate() {
 
   const comparisonYears = delay === 'never' ? yearsToRetire : Math.min(Number(delay), yearsToRetire);
   const periods = Math.max(0, Math.round(comparisonYears * 2));
-  const halfYearReturn = Math.pow(1 + annualReturn, 0.5) - 1;
 
   let totalProfitAdvantage = 0;
   const capitalFutureValue = signedCapitalDifference * Math.pow(1 + annualReturn, yearsToRetire);
@@ -55,7 +53,6 @@ function calculate() {
   const chartSeries = [0];
   let cumulativeAdvantage = 0;
 
-  // Model each six-month production period and invest its profit at period end.
   for (let period = 1; period <= periods; period++) {
     const periodEndYears = period / 2;
     const periodStartYears = periodEndYears - 0.5;
@@ -104,7 +101,7 @@ function calculate() {
   $('profitPeriodLabel').textContent = delay === 'never'
     ? `Modeled from today through retirement at age ${retirementAge}`
     : `Includes the full ${delay}-year production advantage`;
-  $('timelineCaption').textContent = delay === 'never' ? 'Alternative never reaches the DCI room count' : `Catch-up occurs at the end of year ${delay}`;
+  $('timelineCaption').textContent = delay === 'never' ? 'Alternative never reaches the DCI Edge room count' : `Catch-up occurs at the end of year ${delay}`;
 
   renderTimeline(dciRooms, altRooms, delay);
   updateCharts(dciTotal, altTotal, chartLabels, chartSeries);
@@ -130,44 +127,76 @@ function renderTimeline(dciRooms, altRooms, delay) {
   });
 }
 
+function chartFont() {
+  return "'Bernina Sans Condensed','Arial Narrow',Arial,sans-serif";
+}
+
 function updateCharts(dciTotal, altTotal, labels, profitSeries) {
+  if (typeof Chart === 'undefined') return;
+  const styles = getComputedStyle(document.documentElement);
+  const dciBlue = styles.getPropertyValue('--dci-blue').trim() || '#3a6d8e';
+  const dciGray = styles.getPropertyValue('--dci-gray').trim() || '#54565b';
+
   const common = {
     responsive:true,
     maintainAspectRatio:false,
     plugins:{
-      legend:{labels:{usePointStyle:true,boxWidth:8,font:{family:'Inter'}}},
-      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${money(c.raw)}`}}
+      legend:{labels:{usePointStyle:true,boxWidth:8,font:{family:chartFont(),size:13}}},
+      tooltip:{titleFont:{family:chartFont()},bodyFont:{family:chartFont()},callbacks:{label:c=>`${c.dataset.label}: ${money(c.raw)}`}}
     },
     scales:{
-      y:{ticks:{callback:v=>money(v,true)},grid:{color:'#e8eef1'}},
-      x:{grid:{display:false}}
+      y:{ticks:{callback:v=>money(v,true),font:{family:chartFont()}},grid:{color:'#e5e7e8'}},
+      x:{ticks:{font:{family:chartFont()}},grid:{display:false}}
     }
   };
 
   if (costChart) costChart.destroy();
   costChart = new Chart($('costChart'), {
     type:'bar',
-    data:{labels:['DCI Edge','Alternative Brand'],datasets:[{label:'Equipment investment',data:[dciTotal,altTotal],backgroundColor:['#063b63','#8799a6'],borderRadius:8}]},
+    data:{labels:['DCI Edge','Alternative Brand'],datasets:[{label:'Equipment investment',data:[dciTotal,altTotal],backgroundColor:[dciBlue,dciGray],borderRadius:2}]},
     options:{...common,plugins:{...common.plugins,legend:{display:false}}}
   });
 
   if (profitChart) profitChart.destroy();
   profitChart = new Chart($('profitChart'), {
     type:'line',
-    data:{labels,datasets:[{label:'Cumulative additional operating profit',data:profitSeries,borderColor:'#063b63',backgroundColor:'rgba(6,59,99,.12)',fill:true,tension:.25,pointRadius:2}]},
+    data:{labels,datasets:[{label:'Cumulative additional operating profit',data:profitSeries,borderColor:dciBlue,backgroundColor:'rgba(58,109,142,.12)',fill:true,tension:.22,pointRadius:2}]},
     options:common
   });
 }
 
+function revealResults() {
+  calculate();
+  hasRevealed = true;
+  $('results').hidden = false;
+  $('results').classList.remove('revealed');
+  void $('results').offsetWidth;
+  $('results').classList.add('revealed');
+  $('printButton').disabled = false;
+  $('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
 function reset() {
   Object.entries(defaults).forEach(([key,value]) => $(key).value = value);
+  hasRevealed = false;
+  $('results').hidden = true;
+  $('results').classList.remove('revealed');
+  $('printButton').disabled = true;
   calculate();
+  $('builder').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  inputIds.forEach(id => $(id).addEventListener('input', calculate));
+  inputIds.forEach(id => $(id).addEventListener('input', () => {
+    if (hasRevealed) calculate();
+  }));
+  $('revealButton').addEventListener('click', revealResults);
+  $('editButton').addEventListener('click', () => $('builder').scrollIntoView({behavior:'smooth',block:'start'}));
   $('resetButton').addEventListener('click', reset);
-  $('printButton').addEventListener('click', () => window.print());
+  $('printButton').addEventListener('click', () => {
+    if (!hasRevealed) revealResults();
+    setTimeout(() => window.print(), 250);
+  });
   $('currentYear').textContent = new Date().getFullYear();
   calculate();
 });
