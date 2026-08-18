@@ -57,3 +57,6 @@ The fixed header now contains only DCI branding and calculator navigation. Reset
 - Reset Example is now a quiet secondary action below the primary reveal button.
 - Print Results is moved to the end of each results flow, after the methodology section.
 - Edit Assumptions remains the only action in the results reveal banner.
+
+
+Update v0.6.11: corrected the circular AND marker on the Unbooked Operatory flow so it remains upright on mobile and in print.
