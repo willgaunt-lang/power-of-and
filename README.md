@@ -1,4 +1,4 @@
-# The Power of AND — v0.6
+# The Power of AND — v0.6.8
 
 A DCI Edge browser-based sales tool with two calculators:
 
@@ -32,18 +32,22 @@ Taxes, collection differences, financing fees, replacement costs and changes in 
 This is a static site. Commit and push the files to the GitHub repository connected to Cloudflare. Cloudflare will automatically redeploy the latest `main` branch.
 
 
-### v0.6.3
+### v0.6.8.3
 - Replaced the sticky header with a true fixed header for reliable behavior across browsers.
 - Added automatic responsive header-height spacing so page content is never covered by the pinned header.
 
 
-## v0.6.4
+## v0.6.8.4
 - Desktop keeps the full fixed header.
 - Mobile fixes only the DCI logo bar; calculator navigation and action buttons scroll normally.
 - Official DCI logo links to dciedge.com in a new tab.
 
 
-## v0.6.5 mobile header fix
+## v0.6.8.5 mobile header fix
 - Keeps only the DCI logo pinned on mobile.
 - Reserves the 56px pinned-logo area so calculator tabs and action buttons remain visible at the top of the page.
 - Fixes a narrow-screen CSS override that had removed the reserved top spacing.
+
+
+## v0.6.8 header refinement
+The fixed header now contains only DCI branding and calculator navigation. Reset moved to the scenario reveal controls, and Print moved to the results banner. Mobile uses a compact one-row pinned header with the DCI logo plus Rooms/Unbooked navigation.

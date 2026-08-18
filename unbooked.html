@@ -22,12 +22,8 @@
     </div>
     <nav class="tool-nav" aria-label="Power of AND calculators">
       <a class="tool-tab" href="index.html">More Rooms</a>
-      <a class="tool-tab active" href="unbooked.html" aria-current="page">Unbooked Operatory</a>
+      <a class="tool-tab active" href="unbooked.html" aria-current="page"><span class="desktop-label">Unbooked Operatory</span><span class="mobile-label">Unbooked</span></a>
     </nav>
-    <div class="header-actions">
-      <button class="button button-ghost" id="resetButton" type="button">Reset Example</button>
-      <button class="button button-primary" id="printButton" type="button" disabled>Print Report</button>
-    </div>
   </header>
 
   <main id="top">
@@ -144,7 +140,10 @@
 
       <div class="reveal-control">
         <p>Ready to see what this room could do?</p>
-        <button class="button button-primary button-reveal" id="revealButton" type="button">Show Me The Power Of This Room</button>
+        <div class="reveal-actions">
+          <button class="button button-ghost" id="resetButton" type="button">Reset Example</button>
+          <button class="button button-primary button-reveal" id="revealButton" type="button">Show Me The Power Of This Room</button>
+        </div>
         <small>Illustrative model only. Results depend on actual utilization, collections, expenses, financing and staffing.</small>
       </div>
     </section>
@@ -160,7 +159,10 @@
           <p class="eyebrow eyebrow-light">The Unbooked Operatory</p>
           <h2 id="resultsTitle">The Room Does Not Need To Be Full To Pay For Itself.</h2>
           <p id="scenarioSummary">Your room story will appear here.</p>
-          <button class="button button-light" id="editButton" type="button">Edit Assumptions</button>
+          <div class="results-actions">
+            <button class="button button-light" id="editButton" type="button">Edit Assumptions</button>
+            <button class="button button-light" id="printButton" type="button" disabled>Print Report</button>
+          </div>
         </div>
       </div>
 
