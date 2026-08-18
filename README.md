@@ -41,3 +41,9 @@ This is a static site. Commit and push the files to the GitHub repository connec
 - Desktop keeps the full fixed header.
 - Mobile fixes only the DCI logo bar; calculator navigation and action buttons scroll normally.
 - Official DCI logo links to dciedge.com in a new tab.
+
+
+## v0.6.5 mobile header fix
+- Keeps only the DCI logo pinned on mobile.
+- Reserves the 56px pinned-logo area so calculator tabs and action buttons remain visible at the top of the page.
+- Fixes a narrow-screen CSS override that had removed the reserved top spacing.
