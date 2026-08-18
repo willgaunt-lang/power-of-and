@@ -76,3 +76,6 @@ Update v0.6.14: made the Unbooked Operatory desktop-print metric cards a fixed, 
 
 
 v0.6.15: fixed Safari desktop print clipping with a fixed 7-inch report width, simplified print metric cards, and smaller print-specific chart canvases.
+
+
+Version 0.7.0 pivots away from browser print styling and generates branded PDF reports directly in the browser for both calculators.
