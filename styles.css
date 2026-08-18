@@ -27,7 +27,7 @@ button,input,select{font:inherit}
 img,svg,canvas{max-width:100%}
 [hidden]{display:none!important}
 
-.site-header{min-height:76px;padding:13px clamp(20px,5vw,72px);display:flex;align-items:center;justify-content:space-between;gap:20px;background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.site-header{min-height:76px;padding:13px clamp(20px,5vw,72px);display:flex;align-items:center;justify-content:space-between;gap:20px;background:rgba(255,255,255,.98);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:100;box-shadow:0 4px 18px rgba(40,68,85,.08);backdrop-filter:saturate(140%) blur(8px);-webkit-backdrop-filter:saturate(140%) blur(8px)}
 .brand{display:flex;align-items:center;gap:13px;color:var(--dci-gray);text-decoration:none;min-width:0}
 .brand-logo{display:block;height:32px;width:auto;max-width:none;flex-shrink:0}
 .brand-divider{width:1px;height:30px;background:var(--line)}
