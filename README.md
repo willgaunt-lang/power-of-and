@@ -70,3 +70,6 @@ Update v0.6.11: corrected the circular AND marker on the Unbooked Operatory flow
 
 
 Update v0.6.13: tightened desktop print metric cards and converted the More Rooms operatory timeline to print-safe outlined/line bars that remain visible even when Safari's Print backgrounds option is off.
+
+
+Update v0.6.14: made the Unbooked Operatory desktop-print metric cards a fixed, print-safe 2x2 white layout so Safari background-print settings cannot hide the featured retirement card.

@@ -330,3 +330,80 @@ footer{background:var(--dci-gray);color:#fff;text-align:center;padding:48px 20px
     background:transparent!important;
   }
 }
+
+
+/* v0.6.14 — print-safe Unbooked metric cards for Safari desktop */
+@media print{
+  .unbooked-metrics{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    grid-auto-rows:minmax(.70in,auto)!important;
+    gap:.08in!important;
+    width:100%!important;
+    max-width:100%!important;
+    align-items:stretch!important;
+  }
+  .unbooked-metrics .metric-card{
+    display:grid!important;
+    grid-template-rows:auto auto 1fr!important;
+    align-content:start!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+    min-height:.70in!important;
+    height:auto!important;
+    padding:.095in .11in!important;
+    gap:2.5pt!important;
+    overflow:visible!important;
+    background:#fff!important;
+    color:#54565b!important;
+    border:1px solid #d7dcdf!important;
+    border-top:2px solid #3a6d8e!important;
+    -webkit-print-color-adjust:exact!important;
+    print-color-adjust:exact!important;
+  }
+  .unbooked-metrics .metric-card span{
+    color:#54565b!important;
+    font-size:7.7pt!important;
+    line-height:1.12!important;
+  }
+  .unbooked-metrics .metric-card strong{
+    color:#3a6d8e!important;
+    font-size:18pt!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+  }
+  .unbooked-metrics .metric-card small{
+    color:#85898c!important;
+    font-size:6.7pt!important;
+    line-height:1.14!important;
+  }
+  .unbooked-metrics .metric-featured{
+    background:#fff!important;
+    border:1px solid #3a6d8e!important;
+    border-top:2px solid #3a6d8e!important;
+  }
+  .unbooked-metrics .metric-featured span,
+  .unbooked-metrics .metric-featured small{
+    color:#54565b!important;
+  }
+  .unbooked-metrics .metric-featured strong,
+  .unbooked-metrics .metric-featured b{
+    color:#3a6d8e!important;
+  }
+  .unbooked-metrics .wealth-breakdown{
+    margin-top:2pt!important;
+    padding-top:3pt!important;
+    gap:1pt!important;
+    border-top:1px solid #d7dcdf!important;
+  }
+  .unbooked-metrics .wealth-breakdown span{
+    color:#6d7174!important;
+    font-size:6.1pt!important;
+    line-height:1.08!important;
+  }
+  .unbooked-metrics .wealth-breakdown b{
+    color:#3a6d8e!important;
+    font-size:6.1pt!important;
+  }
+}
