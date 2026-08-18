@@ -1,3 +1,18 @@
+// Keep page content aligned below the fixed responsive header.
+function syncHeaderHeight() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  document.documentElement.style.setProperty('--header-height', `${Math.ceil(header.getBoundingClientRect().height)}px`);
+}
+
+syncHeaderHeight();
+window.addEventListener('load', syncHeaderHeight);
+window.addEventListener('resize', syncHeaderHeight);
+if ('ResizeObserver' in window) {
+  const header = document.querySelector('.site-header');
+  if (header) new ResizeObserver(syncHeaderHeight).observe(header);
+}
+
 const $ = id => document.getElementById(id);
 const inputIds = ['dciRooms','dciCost','altRooms','altCost','revenuePerRoom','margin','growth','delayYears','currentAge','retirementAge','returnRate'];
 const defaults = {dciRooms:5,dciCost:22000,altRooms:3,altCost:37000,revenuePerRoom:250000,margin:35,growth:3,delayYears:'2',currentAge:42,retirementAge:65,returnRate:7};

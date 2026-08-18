@@ -30,3 +30,8 @@ Taxes, collection differences, financing fees, replacement costs and changes in 
 ## Deployment
 
 This is a static site. Commit and push the files to the GitHub repository connected to Cloudflare. Cloudflare will automatically redeploy the latest `main` branch.
+
+
+### v0.6.3
+- Replaced the sticky header with a true fixed header for reliable behavior across browsers.
+- Added automatic responsive header-height spacing so page content is never covered by the pinned header.

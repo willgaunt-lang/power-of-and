@@ -1,3 +1,18 @@
+// Keep page content aligned below the fixed responsive header.
+function syncHeaderHeight() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  document.documentElement.style.setProperty('--header-height', `${Math.ceil(header.getBoundingClientRect().height)}px`);
+}
+
+syncHeaderHeight();
+window.addEventListener('load', syncHeaderHeight);
+window.addEventListener('resize', syncHeaderHeight);
+if ('ResizeObserver' in window) {
+  const header = document.querySelector('.site-header');
+  if (header) new ResizeObserver(syncHeaderHeight).observe(header);
+}
+
 const $ = id => document.getElementById(id);
 
 const inputIds = [

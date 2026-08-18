@@ -21,13 +21,13 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;width:100%;max-width:100%;overflow-x:hidden}
-body{margin:0;width:100%;max-width:100%;overflow-x:hidden;background:var(--bg);color:var(--dci-gray);font-family:var(--font-sans);font-size:17px;line-height:1.45}
+html{scroll-behavior:smooth;width:100%;max-width:100%;overflow-x:clip;scroll-padding-top:calc(var(--header-height,76px) + 16px)}
+body{margin:0;width:100%;max-width:100%;overflow-x:clip;padding-top:var(--header-height,76px);background:var(--bg);color:var(--dci-gray);font-family:var(--font-sans);font-size:17px;line-height:1.45}
 button,input,select{font:inherit}
 img,svg,canvas{max-width:100%}
 [hidden]{display:none!important}
 
-.site-header{min-height:76px;padding:13px clamp(20px,5vw,72px);display:flex;align-items:center;justify-content:space-between;gap:20px;background:rgba(255,255,255,.98);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:100;box-shadow:0 4px 18px rgba(40,68,85,.08);backdrop-filter:saturate(140%) blur(8px);-webkit-backdrop-filter:saturate(140%) blur(8px)}
+.site-header{min-height:76px;padding:13px clamp(20px,5vw,72px);display:flex;align-items:center;justify-content:space-between;gap:20px;background:rgba(255,255,255,.98);border-bottom:1px solid var(--line);position:fixed;top:0;left:0;right:0;width:100%;z-index:1000;box-shadow:0 4px 18px rgba(40,68,85,.08);backdrop-filter:saturate(140%) blur(8px);-webkit-backdrop-filter:saturate(140%) blur(8px)}
 .brand{display:flex;align-items:center;gap:13px;color:var(--dci-gray);text-decoration:none;min-width:0}
 .brand-logo{display:block;height:32px;width:auto;max-width:none;flex-shrink:0}
 .brand-divider{width:1px;height:30px;background:var(--line)}
@@ -90,7 +90,7 @@ footer{background:var(--dci-gray);color:#fff;text-align:center;padding:48px 20px
 @media(max-width:800px){.assumption-grid{grid-template-columns:1fr}.site-header{align-items:flex-start;flex-wrap:wrap}.header-actions{margin-left:auto}.hero{min-height:auto;padding-top:75px;padding-bottom:78px}.input-grid.two-col{grid-template-columns:repeat(2,minmax(0,1fr))}.metric-grid{grid-template-columns:1fr}.story-card{align-items:flex-start;flex-direction:column}.story-amount{white-space:normal}.timeline-row{grid-template-columns:58px minmax(0,1fr)}.timeline-row .op-track:last-child{grid-column:2}.brand-campaign,.brand-divider{display:none}}
 @media(max-width:520px){body{font-size:16px}.site-header{padding:12px 14px}.brand-logo{height:28px}.header-actions{width:100%}.header-actions .button{flex:1}.hero{padding:64px 20px 70px}.hero h1{font-size:46px}.hero-lede{font-size:18px}.builder-section{padding:58px 12px 72px}.assumption-card{padding:24px 18px}.input-grid.two-col{grid-template-columns:1fr}.span-two{grid-column:auto}.results-content{padding:38px 12px 66px}.results-banner{padding:54px 18px}.metric-card,.story-card,.chart-card,.timeline-card,.method-card{padding-left:18px;padding-right:18px}.chart-wrap{height:260px}.chart-heading{flex-direction:column}.timeline-row{grid-template-columns:50px minmax(0,1fr)}.button-reveal{min-width:0;width:100%}}
 
-@media print{.site-header,.hero,.builder-section,.button{display:none!important}body{background:#fff}.results-section[hidden]{display:block!important}.results-banner{padding:30px;background:var(--dci-blue)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.results-content{padding:20px 0}.metric-grid{grid-template-columns:repeat(2,1fr)}.chart-grid{grid-template-columns:repeat(2,1fr)}.chart-wrap{height:230px}.results-content>*{break-inside:avoid}footer{margin-top:20px}}
+@media print{.site-header,.hero,.builder-section,.button{display:none!important}body{background:#fff;padding-top:0}.results-section[hidden]{display:block!important}.results-banner{padding:30px;background:var(--dci-blue)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.results-content{padding:20px 0}.metric-grid{grid-template-columns:repeat(2,1fr)}.chart-grid{grid-template-columns:repeat(2,1fr)}.chart-wrap{height:230px}.results-content>*{break-inside:avoid}footer{margin-top:20px}}
 
 /* --- Shared calculator navigation --- */
 .tool-nav{display:flex;align-items:center;justify-content:center;gap:4px;padding:4px;background:#f0f2f3;border:1px solid var(--line);border-radius:4px;margin-left:auto}
