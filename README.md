@@ -35,3 +35,9 @@ This is a static site. Commit and push the files to the GitHub repository connec
 ### v0.6.3
 - Replaced the sticky header with a true fixed header for reliable behavior across browsers.
 - Added automatic responsive header-height spacing so page content is never covered by the pinned header.
+
+
+## v0.6.4
+- Desktop keeps the full fixed header.
+- Mobile fixes only the DCI logo bar; calculator navigation and action buttons scroll normally.
+- Official DCI logo links to dciedge.com in a new tab.
