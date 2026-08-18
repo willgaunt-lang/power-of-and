@@ -407,3 +407,95 @@ footer{background:var(--dci-gray);color:#fff;text-align:center;padding:48px 20px
     font-size:6.1pt!important;
   }
 }
+
+/* v0.6.15 — fixed-width print report to prevent Safari desktop clipping */
+@media print{
+  .results-banner,
+  .results-content{
+    width:7in!important;
+    max-width:7in!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    box-sizing:border-box!important;
+  }
+
+  .results-content>*{
+    width:100%!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+
+  .metric-grid,
+  .unbooked-metrics,
+  .chart-grid{
+    width:7in!important;
+    max-width:7in!important;
+    grid-template-columns:3.44in 3.44in!important;
+    gap:.12in!important;
+    box-sizing:border-box!important;
+  }
+
+  .metric-card,
+  .chart-card{
+    width:3.44in!important;
+    max-width:3.44in!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
+  }
+
+  .metric-card strong,
+  .unbooked-metrics .metric-card strong,
+  .unbooked-metrics .metric-featured strong{
+    font-size:18pt!important;
+    letter-spacing:-.35pt!important;
+  }
+
+  /* Keep the print card concise; the headline value is the important takeaway. */
+  .metric-card .wealth-breakdown{
+    display:none!important;
+  }
+
+  .chart-card{
+    padding:.10in!important;
+  }
+  .chart-wrap{
+    width:3.20in!important;
+    max-width:3.20in!important;
+    height:1.55in!important;
+    min-height:1.55in!important;
+    margin:5pt auto 0!important;
+    overflow:hidden!important;
+    box-sizing:border-box!important;
+  }
+  .chart-wrap canvas{
+    width:100%!important;
+    height:100%!important;
+    max-width:100%!important;
+    max-height:100%!important;
+  }
+
+  .story-card,
+  .timeline-card,
+  .method-card,
+  .break-even-hero,
+  .room-transformation{
+    width:7in!important;
+    max-width:7in!important;
+    box-sizing:border-box!important;
+  }
+
+  .timeline-row{
+    width:100%!important;
+    max-width:100%!important;
+    grid-template-columns:.48in 3.06in 3.06in!important;
+    gap:.10in!important;
+    box-sizing:border-box!important;
+  }
+
+  .op-track,
+  .op-bar{
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+}

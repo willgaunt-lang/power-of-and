@@ -171,7 +171,7 @@ function chartFont() {
   return "'Bernina Sans Condensed','Arial Narrow',Arial,sans-serif";
 }
 
-function preparePrintCanvas(id, width=350, height=175) {
+function preparePrintCanvas(id, width=300, height=145) {
   const canvas = $(id);
   if (!canvas || !printChartMode) return;
   canvas.width = width;
@@ -225,7 +225,7 @@ function updateCharts(cashLabels, cashSeries, monthlyContribution, monthlyPaymen
   monthlyChart = new Chart($('monthlyChart'), {
     type:'bar',
     data:{
-      labels:printMode ? ['Room contribution','Equipment payment'] : ['Monthly room contribution','Equipment payment'],
+      labels:printMode ? ['Room contribution','Payment'] : ['Monthly room contribution','Equipment payment'],
       datasets:[{label:'Monthly amount',data:[monthlyContribution,monthlyPayment],backgroundColor:[dciBlue,dciGray],borderRadius:2,maxBarThickness:printMode ? 70 : undefined}]
     },
     options:{...common,plugins:{...common.plugins,legend:{display:false}}}

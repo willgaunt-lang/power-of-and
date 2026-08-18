@@ -147,7 +147,7 @@ function chartFont() {
   return "'Bernina Sans Condensed','Arial Narrow',Arial,sans-serif";
 }
 
-function preparePrintCanvas(id, width=350, height=175) {
+function preparePrintCanvas(id, width=300, height=145) {
   const canvas = $(id);
   if (!canvas || !printChartMode) return;
   canvas.width = width;

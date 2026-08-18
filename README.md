@@ -73,3 +73,6 @@ Update v0.6.13: tightened desktop print metric cards and converted the More Room
 
 
 Update v0.6.14: made the Unbooked Operatory desktop-print metric cards a fixed, print-safe 2x2 white layout so Safari background-print settings cannot hide the featured retirement card.
+
+
+v0.6.15: fixed Safari desktop print clipping with a fixed 7-inch report width, simplified print metric cards, and smaller print-specific chart canvases.
