@@ -122,8 +122,8 @@
       <div class="reveal-control">
         <p>Ready to see what these assumptions could mean?</p>
         <div class="reveal-actions">
-          <button class="button button-ghost" id="resetButton" type="button">Reset Example</button>
           <button class="button button-primary button-reveal" id="revealButton" type="button">Show Me the Power of AND</button>
+          <button class="reset-link" id="resetButton" type="button">Reset example</button>
         </div>
         <small>Illustrative model only. Results are based on the assumptions entered above.</small>
       </div>
@@ -142,7 +142,6 @@
           <p id="scenarioSummary">Your comparison will appear here.</p>
           <div class="results-actions">
             <button class="button button-light" id="editButton" type="button">Edit Assumptions</button>
-            <button class="button button-light" id="printButton" type="button" disabled>Print Report</button>
           </div>
         </div>
       </div>
@@ -184,6 +183,11 @@
           <h3>How This Estimate Works</h3>
           <p>Total equipment investment equals operatories × cost per operatory for each option. The operating-profit advantage comes from the extra rooms in service before the alternative reaches the DCI Edge room count. Half-year selections are calculated as complete six-month production periods. For example, a 3-year selection includes all six half-year periods before the alternative catches up at the end of year 3. The retirement illustration grows the upfront capital difference from today and deposits each period’s added operating profit when it is earned, then compounds each amount through the selected retirement age.</p>
         </article>
+
+        <div class="results-footer-actions">
+          <span>Want to keep this scenario?</span>
+          <button class="button button-primary" id="printButton" type="button" disabled>Print Results</button>
+        </div>
       </div>
     </section>
 

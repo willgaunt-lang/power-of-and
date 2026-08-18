@@ -141,8 +141,8 @@
       <div class="reveal-control">
         <p>Ready to see what this room could do?</p>
         <div class="reveal-actions">
-          <button class="button button-ghost" id="resetButton" type="button">Reset Example</button>
           <button class="button button-primary button-reveal" id="revealButton" type="button">Show Me The Power Of This Room</button>
+          <button class="reset-link" id="resetButton" type="button">Reset example</button>
         </div>
         <small>Illustrative model only. Results depend on actual utilization, collections, expenses, financing and staffing.</small>
       </div>
@@ -161,7 +161,6 @@
           <p id="scenarioSummary">Your room story will appear here.</p>
           <div class="results-actions">
             <button class="button button-light" id="editButton" type="button">Edit Assumptions</button>
-            <button class="button button-light" id="printButton" type="button" disabled>Print Report</button>
           </div>
         </div>
       </div>
@@ -266,6 +265,11 @@
           <p>The calculator treats the room as existing space and focuses on incremental economics. Annual room production equals additional visits per week × average production per visit × working weeks. Variable clinical costs and any additional staffing cost are deducted. The financed equipment payment is calculated from the entered down payment, APR and term. Break-even visits per week are the visits required for the room's incremental contribution to cover the scheduled equipment payment and entered additional staffing cost. The retirement illustration compounds the room's monthly net cash flow after equipment payments, subtracts the opportunity cost of any down payment, and assumes the room continues at the entered utilization through retirement. Taxes, collection differences, financing fees, replacement costs and changes in utilization are not modeled.</p>
           <p class="method-note">Potential tax deductions or depreciation are intentionally excluded. Consult a qualified tax professional regarding the tax treatment of equipment purchases.</p>
         </article>
+
+        <div class="results-footer-actions">
+          <span>Want to keep this scenario?</span>
+          <button class="button button-primary" id="printButton" type="button" disabled>Print Results</button>
+        </div>
 
         <section class="cross-tool-section cross-tool-inside" aria-label="Explore the More Rooms calculator">
           <div class="cross-tool-card">
