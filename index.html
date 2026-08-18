@@ -140,9 +140,6 @@
           <p class="eyebrow eyebrow-light">The Power of AND</p>
           <h2 id="resultsTitle">What Becomes Possible?</h2>
           <p id="scenarioSummary">Your comparison will appear here.</p>
-          <div class="results-actions">
-            <button class="button button-light" id="editButton" type="button">Edit Assumptions</button>
-          </div>
         </div>
       </div>
 
@@ -185,8 +182,14 @@
         </article>
 
         <div class="results-footer-actions">
-          <span>Want to keep this scenario?</span>
-          <button class="button button-primary" id="printButton" type="button" disabled>Print Results</button>
+          <div class="results-footer-copy">
+            <strong>Want to keep this scenario?</strong>
+            <span>Print the results, or adjust the assumptions and run it again.</span>
+          </div>
+          <div class="results-footer-buttons">
+            <button class="button button-ghost" id="editButton" type="button">Edit Assumptions</button>
+            <button class="button button-primary" id="printButton" type="button" disabled>Print Results</button>
+          </div>
         </div>
       </div>
     </section>
