@@ -19,8 +19,6 @@ const defaults = {dciRooms:5,dciCost:22000,altRooms:3,altCost:37000,revenuePerRo
 let costChart, profitChart;
 let hasRevealed = false;
 let printChartMode = false;
-let latestResults = {};
-let logoDataUrlPromise = null;
 
 const money = (n, compact=false) => new Intl.NumberFormat('en-US', {
   style:'currency', currency:'USD', maximumFractionDigits:0,
@@ -123,16 +121,6 @@ function calculate() {
 
   renderTimeline(dciRooms, altRooms, delay);
   updateCharts(dciTotal, altTotal, chartLabels, chartSeries);
-
-  latestResults = {
-    dciRooms, altRooms, dciCost, altCost, revenue, margin, growth, delay, currentAge, retirementAge, annualReturn, yearsToRetire,
-    dciTotal, altTotal, signedCapitalDifference, roomAdvantage, currentAnnualProfitAdvantage, totalProfitAdvantage,
-    capitalFutureValue, profitFutureValue, retirementValue, comparisonYears, delayText, scenarioSummary: $('scenarioSummary').textContent, storyHeadline: $('storyHeadline').textContent, storyCopy: $('storyCopy').textContent, annualProfitAdvantageText: $('annualProfitAdvantage').textContent, chartLabels:[...chartLabels], chartSeries:[...chartSeries],
-    timelinePoints: (function(){ const pts=[0]; const maxYears = delay === 'never' ? 5 : Math.min(5, Math.ceil(Number(delay))); for (let t=0.5; t<=maxYears; t+=0.5) pts.push(t); return pts.map(time => ({
-      label: time === 0 ? 'Today' : (time % 1 === 0 ? `Year ${time}` : `${time} yr`),
-      dci:dciRooms, alt: time === 0 ? altRooms : alternativeRoomsAtSnapshot(time, altRooms, dciRooms, delay)
-    })); })()
-  };
 }
 
 function renderTimeline(dciRooms, altRooms, delay) {
@@ -262,222 +250,6 @@ function reset() {
   $('builder').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-
-
-async function getLogoDataUrl() {
-  if (!logoDataUrlPromise) {
-    logoDataUrlPromise = fetch('assets/dci-logo-white.png')
-      .then(r => r.blob())
-      .then(blob => new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.readAsDataURL(blob);
-      }))
-      .catch(() => null);
-  }
-  return logoDataUrlPromise;
-}
-
-function addPdfHeader(doc, title, subtitle) {
-  doc.setFillColor(58,109,142);
-  doc.rect(36, 32, 540, 64, 'F');
-  doc.setTextColor(255,255,255);
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(9);
-  doc.text('THE POWER OF AND', 48, 48);
-  doc.setFont('times','bold');
-  doc.setFontSize(22);
-  doc.text(title, 48, 72);
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(8.5);
-  doc.text(subtitle, 48, 86, {maxWidth: 500});
-}
-
-function addPdfFooter(doc, pageNum) {
-  doc.setDrawColor(229,231,232);
-  doc.line(36, 752, 576, 752);
-  doc.setTextColor(110,116,122);
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(7.5);
-  doc.text('DCI • The Power of AND • Illustrative estimate only', 36, 765);
-  doc.text(`Page ${pageNum}`, 556, 765, {align:'right'});
-}
-
-function drawValueCard(doc, x, y, w, h, label, value, note, emphasized=false) {
-  doc.setDrawColor(204,210,214);
-  doc.setFillColor(emphasized ? 247 : 255, emphasized ? 249 : 255, emphasized ? 250 : 255);
-  doc.rect(x, y, w, h, 'FD');
-  doc.setDrawColor(58,109,142);
-  doc.setLineWidth(1);
-  doc.line(x, y, x+w, y);
-  doc.setTextColor(84,86,91);
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(7.5);
-  doc.text(label.toUpperCase(), x+10, y+14);
-  doc.setTextColor(58,109,142);
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(20);
-  doc.text(value, x+10, y+37);
-  if (note) {
-    doc.setTextColor(110,116,122);
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(7);
-    doc.text(note, x+10, y+h-10, {maxWidth: w-20});
-  }
-}
-
-function drawSectionBand(doc, x, y, w, title, rightText='', body='') {
-  doc.setFillColor(248,249,250);
-  doc.setDrawColor(204,210,214);
-  doc.rect(x, y, w, 44, 'FD');
-  doc.setDrawColor(58,109,142);
-  doc.setLineWidth(1);
-  doc.line(x, y, x, y+44);
-  doc.setTextColor(58,109,142);
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(8);
-  doc.text('THE SAME-BUDGET STORY', x+10, y+12);
-  doc.setFont('times','bold');
-  doc.setFontSize(16);
-  doc.text(title, x+10, y+29);
-  if (rightText) {
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(16);
-    doc.text(rightText, x+w-10, y+29, {align:'right'});
-  }
-  if (body) {
-    doc.setTextColor(84,86,91);
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(7.4);
-    doc.text(body, x+10, y+39, {maxWidth: w-120});
-  }
-}
-
-function drawChartCard(doc, x, y, w, h, heading, imgData) {
-  doc.setDrawColor(204,210,214);
-  doc.rect(x, y, w, h);
-  doc.setTextColor(58,109,142);
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(7.5);
-  doc.text(heading.toUpperCase(), x+10, y+12);
-  if (imgData) {
-    doc.addImage(imgData, 'PNG', x+10, y+18, w-20, h-28, undefined, 'FAST');
-  }
-}
-
-function drawMiniTable(doc, x, y, rows, col1, col2, col3) {
-  doc.setTextColor(58,109,142);
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(7.5);
-  doc.text(col1, x, y); doc.text(col2, x+110, y); doc.text(col3, x+285, y);
-  let yy = y + 14;
-  doc.setFont('helvetica','normal');
-  doc.setTextColor(84,86,91);
-  doc.setFontSize(8);
-  rows.forEach(r => {
-    doc.text(String(r[0]), x, yy);
-    doc.text(String(r[1]), x+110, yy);
-    doc.text(String(r[2]), x+285, yy);
-    doc.setDrawColor(229,231,232);
-    doc.line(x, yy+4, x+500, yy+4);
-    yy += 16;
-  });
-}
-
-function drawMethodBox(doc, x, y, w, h, title, text) {
-  doc.setDrawColor(204,210,214);
-  doc.rect(x,y,w,h);
-  doc.setTextColor(58,109,142);
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(10);
-  doc.text(title, x+10, y+15);
-  doc.setTextColor(84,86,91);
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(7.6);
-  doc.text(text, x+10, y+29, {maxWidth:w-20});
-}
-
-async function generatePdfReport() {
-  if (!window.jspdf || !latestResults.chartLabels) return;
-  const btn = $('printButton');
-  const original = btn.textContent;
-  btn.disabled = true;
-  btn.textContent = 'Creating PDF…';
-  try {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({orientation:'portrait', unit:'pt', format:'letter'});
-    const pageW = 612;
-    const logo = await getLogoDataUrl();
-
-    addPdfHeader(doc, 'What Becomes Possible?', latestResults.scenarioSummary || $('scenarioSummary').textContent);
-    if (logo) doc.addImage(logo, 'PNG', 430, 40, 112, 24, undefined, 'FAST');
-    const x1=36, x2=300, cardW=258, cardH=56;
-    drawValueCard(doc, x1, 108, cardW, cardH, 'More operatories on day one', `${latestResults.roomAdvantage > 0 ? '+' : ''}${latestResults.roomAdvantage}`, 'Difference between the two opening configurations');
-    drawValueCard(doc, x2, 108, cardW, cardH, 'Initial investment difference', `${latestResults.signedCapitalDifference >= 0 ? '+' : '−'}${money(latestResults.signedCapitalDifference)}`, latestResults.signedCapitalDifference >= 0 ? 'Capital retained with the DCI configuration' : 'Additional investment for the DCI configuration');
-    drawValueCard(doc, x1, 170, cardW, cardH, 'Additional profit before catch-up', `${latestResults.totalProfitAdvantage >= 0 ? '+' : '−'}${money(latestResults.totalProfitAdvantage)}`, latestResults.delay === 'never' ? 'Modeled through retirement' : `Includes the full ${latestResults.delay}-year production advantage`);
-    drawValueCard(doc, x2, 170, cardW, cardH, 'Potential additional wealth at retirement', `${latestResults.retirementValue >= 0 ? '+' : '−'}${money(latestResults.retirementValue)}`, `Future value of upfront capital (${money(latestResults.capitalFutureValue)}) plus added operatory profit (${money(latestResults.profitFutureValue)}).`, true);
-
-    drawSectionBand(doc, 36, 236, 540, $('storyHeadline').textContent, $('annualProfitAdvantage').textContent, $('storyCopy').textContent);
-
-    const costImg = $('costChart').toDataURL('image/png',1.0);
-    const profitImg = $('profitChart').toDataURL('image/png',1.0);
-    drawChartCard(doc, 36, 292, 258, 138, 'Upfront decision • Total equipment investment', costImg);
-    drawChartCard(doc, 318, 292, 258, 138, 'Practice impact • Cumulative operating profit advantage', profitImg);
-
-    doc.setTextColor(84,86,91);
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(8);
-    doc.text(`DCI Edge: ${latestResults.dciRooms} operatories at ${money(latestResults.dciCost)} per room`, 36, 450);
-    doc.text(`Alternative: ${latestResults.altRooms} operatories at ${money(latestResults.altCost)} per room`, 36, 464);
-    doc.text(`Revenue per operatory: ${money(latestResults.revenue)} • Operating margin: ${(latestResults.margin*100).toFixed(0)}% • Annual growth: ${(latestResults.growth*100).toFixed(1)}%`, 36, 478);
-    doc.text(`Current age: ${latestResults.currentAge} • Retirement age: ${latestResults.retirementAge} • Investment return: ${(latestResults.annualReturn*100).toFixed(1)}%`, 36, 492);
-
-    addPdfFooter(doc,1);
-
-    doc.addPage();
-    addPdfHeader(doc, 'Operatories In Service', `Alternative ${latestResults.delayText}. The table below shows how the room count compares over time.`);
-    if (logo) doc.addImage(logo, 'PNG', 430, 40, 112, 24, undefined, 'FAST');
-    const tableRows = latestResults.timelinePoints.map(p => [p.label, `DCI Edge • ${p.dci}`, `Alternative • ${p.alt}`]);
-    drawMiniTable(doc, 48, 120, tableRows, 'Snapshot', 'DCI Edge', 'Alternative');
-    let baseY = 120 + 14 + tableRows.length*16 + 24;
-    doc.setTextColor(58,109,142);
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(10);
-    doc.text('Assumptions', 48, baseY);
-    doc.setFont('helvetica','normal');
-    doc.setTextColor(84,86,91);
-    doc.setFontSize(8);
-    const assumptions = [
-      ['DCI Edge operatories', String(latestResults.dciRooms)],
-      ['Alternative operatories', String(latestResults.altRooms)],
-      ['DCI cost per operatory', money(latestResults.dciCost)],
-      ['Alternative cost per operatory', money(latestResults.altCost)],
-      ['Revenue per operatory', money(latestResults.revenue)],
-      ['Operating margin', `${(latestResults.margin*100).toFixed(0)}%`],
-      ['Annual production growth', `${(latestResults.growth*100).toFixed(1)}%`],
-      ['Catch-up timing', latestResults.delay === 'never' ? 'Never' : `${latestResults.delay} years`],
-      ['Years to retirement', String(latestResults.yearsToRetire)],
-      ['Investment return', `${(latestResults.annualReturn*100).toFixed(1)}%`]
-    ];
-    let ax=48, ay=baseY+18;
-    assumptions.forEach((a, idx) => {
-      const col = idx < 5 ? 0 : 1;
-      const row = idx % 5;
-      const x = ax + col*260;
-      const y = ay + row*20;
-      doc.setFont('helvetica','bold'); doc.text(`${a[0]}:`, x, y);
-      doc.setFont('helvetica','normal'); doc.text(String(a[1]), x+120, y);
-    });
-    drawMethodBox(doc, 36, 520, 540, 170, 'How This Estimate Works', 'This calculator compares two ways to put more operatories to work. The investment difference between the two scenarios is treated as capital preserved or additional capital required on day one. If DCI Edge opens with more rooms, the model also calculates the additional operating profit created while that room advantage exists. Those cash flows are then compounded to the selected retirement age at the entered investment return. The results are illustrative only and do not include financing, taxes, personal withdrawals or practice-specific overhead differences.');
-    addPdfFooter(doc,2);
-
-    doc.save('power-of-and-more-rooms-report.pdf');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = original;
-  }
-}
-
 window.addEventListener('DOMContentLoaded', () => {
   inputIds.forEach(id => $(id).addEventListener('input', () => {
     if (hasRevealed) calculate();
@@ -485,10 +257,12 @@ window.addEventListener('DOMContentLoaded', () => {
   $('revealButton').addEventListener('click', revealResults);
   $('editButton').addEventListener('click', () => $('builder').scrollIntoView({behavior:'smooth',block:'start'}));
   $('resetButton').addEventListener('click', reset);
-  $('printButton').addEventListener('click', async () => {
+  $('printButton').addEventListener('click', () => {
     if (!hasRevealed) revealResults();
-    await generatePdfReport();
+    prepareChartsForPrint();
+    requestAnimationFrame(() => requestAnimationFrame(() => window.print()));
   });
+  window.addEventListener('afterprint', restoreChartsAfterPrint);
   $('currentYear').textContent = new Date().getFullYear();
   calculate();
 });
