@@ -60,3 +60,10 @@ The fixed header now contains only DCI branding and calculator navigation. Reset
 
 
 Update v0.6.11: corrected the circular AND marker on the Unbooked Operatory flow so it remains upright on mobile and in print.
+
+
+### v0.6.12
+- Redraws Chart.js charts specifically for print/PDF output instead of scaling the on-screen canvas.
+- Keeps year/category labels attached to the correct chart in print previews.
+- Shortens print-only chart labels and prevents chart canvases from overlapping the methodology section.
+- Adds cache-busting version strings to CSS/JS references.

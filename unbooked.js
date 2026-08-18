@@ -38,6 +38,7 @@ const defaults = {
 let hasRevealed = false;
 let cashChart;
 let monthlyChart;
+let printChartMode = false;
 
 const money = (n, compact=false) => new Intl.NumberFormat('en-US', {
   style:'currency',
@@ -170,23 +171,38 @@ function chartFont() {
   return "'Bernina Sans Condensed','Arial Narrow',Arial,sans-serif";
 }
 
+function preparePrintCanvas(id, width=350, height=175) {
+  const canvas = $(id);
+  if (!canvas || !printChartMode) return;
+  canvas.width = width;
+  canvas.height = height;
+}
+
 function updateCharts(cashLabels, cashSeries, monthlyContribution, monthlyPayment) {
   if (typeof Chart === 'undefined') return;
   const styles = getComputedStyle(document.documentElement);
   const dciBlue = styles.getPropertyValue('--dci-blue').trim() || '#3a6d8e';
   const dciGray = styles.getPropertyValue('--dci-gray').trim() || '#54565b';
   const softGrid = '#e5e7e8';
+  const printMode = printChartMode;
+
+  if (printMode) {
+    preparePrintCanvas('cashChart');
+    preparePrintCanvas('monthlyChart');
+  }
 
   const common = {
-    responsive:true,
+    responsive:!printMode,
     maintainAspectRatio:false,
+    animation: printMode ? false : undefined,
+    layout: printMode ? {padding:{top:2,right:7,bottom:9,left:3}} : {},
     plugins:{
-      legend:{labels:{usePointStyle:true,boxWidth:8,font:{family:chartFont(),size:13}}},
-      tooltip:{titleFont:{family:chartFont()},bodyFont:{family:chartFont()},callbacks:{label:c=>`${c.dataset.label}: ${money(c.raw)}`}}
+      legend:{labels:{usePointStyle:true,boxWidth:8,font:{family:chartFont(),size:printMode ? 9 : 13},padding:printMode ? 8 : 10}},
+      tooltip:{enabled:!printMode,titleFont:{family:chartFont()},bodyFont:{family:chartFont()},callbacks:{label:c=>`${c.dataset.label}: ${money(c.raw)}`}}
     },
     scales:{
-      y:{ticks:{callback:v=>money(v,true),font:{family:chartFont()}},grid:{color:softGrid}},
-      x:{ticks:{font:{family:chartFont()}},grid:{display:false}}
+      y:{ticks:{callback:v=>money(v,true),font:{family:chartFont(),size:printMode ? 8 : 12},maxTicksLimit:printMode ? 6 : undefined},grid:{color:softGrid}},
+      x:{ticks:{font:{family:chartFont(),size:printMode ? 8 : 12},autoSkip:true,maxTicksLimit:printMode ? 6 : undefined,maxRotation:0,minRotation:0,padding:printMode ? 5 : 3},grid:{display:false}}
     }
   };
 
@@ -200,7 +216,7 @@ function updateCharts(cashLabels, cashSeries, monthlyContribution, monthlyPaymen
       backgroundColor:'rgba(58,109,142,.12)',
       fill:true,
       tension:.2,
-      pointRadius:3
+      pointRadius:printMode ? 1.5 : 3
     }]},
     options:common
   });
@@ -209,11 +225,24 @@ function updateCharts(cashLabels, cashSeries, monthlyContribution, monthlyPaymen
   monthlyChart = new Chart($('monthlyChart'), {
     type:'bar',
     data:{
-      labels:['Monthly room contribution','Equipment payment'],
-      datasets:[{label:'Monthly amount',data:[monthlyContribution,monthlyPayment],backgroundColor:[dciBlue,dciGray],borderRadius:2}]
+      labels:printMode ? ['Room contribution','Equipment payment'] : ['Monthly room contribution','Equipment payment'],
+      datasets:[{label:'Monthly amount',data:[monthlyContribution,monthlyPayment],backgroundColor:[dciBlue,dciGray],borderRadius:2,maxBarThickness:printMode ? 70 : undefined}]
     },
     options:{...common,plugins:{...common.plugins,legend:{display:false}}}
   });
+}
+
+function prepareChartsForPrint() {
+  printChartMode = true;
+  document.documentElement.classList.add('print-prep');
+  calculate();
+}
+
+function restoreChartsAfterPrint() {
+  if (!printChartMode) return;
+  printChartMode = false;
+  document.documentElement.classList.remove('print-prep');
+  calculate();
 }
 
 function revealResults() {
@@ -247,8 +276,10 @@ window.addEventListener('DOMContentLoaded', () => {
   $('resetButton').addEventListener('click', reset);
   $('printButton').addEventListener('click', () => {
     if (!hasRevealed) revealResults();
-    setTimeout(() => window.print(), 250);
+    prepareChartsForPrint();
+    requestAnimationFrame(() => requestAnimationFrame(() => window.print()));
   });
+  window.addEventListener('afterprint', restoreChartsAfterPrint);
   $('currentYear').textContent = new Date().getFullYear();
   calculate();
 });

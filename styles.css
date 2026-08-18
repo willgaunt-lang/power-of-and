@@ -221,3 +221,15 @@ footer{background:var(--dci-gray);color:#fff;text-align:center;padding:48px 20px
   .unbooked-story .story-amount{font-size:28pt!important}
   .advanced-card{display:none!important}
 }
+
+
+/* v0.6.12 — redraw Chart.js canvases specifically for print so axes stay attached */
+@media print{
+  .chart-grid{align-items:start!important;margin-bottom:.18in!important}
+  .chart-card{min-height:2.18in!important;overflow:hidden!important}
+  .chart-wrap{height:1.70in!important;min-height:1.70in!important;overflow:hidden!important;position:relative!important;margin-top:5pt!important;padding-bottom:0!important}
+  .chart-wrap canvas{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important}
+  .method-card{clear:both!important;margin-top:.18in!important}
+  .unbooked-page .method-card{margin-top:.20in!important}
+  .timeline-card{margin-top:.03in!important}
+}

@@ -18,6 +18,7 @@ const inputIds = ['dciRooms','dciCost','altRooms','altCost','revenuePerRoom','ma
 const defaults = {dciRooms:5,dciCost:22000,altRooms:3,altCost:37000,revenuePerRoom:250000,margin:35,growth:3,delayYears:'2',currentAge:42,retirementAge:65,returnRate:7};
 let costChart, profitChart;
 let hasRevealed = false;
+let printChartMode = false;
 
 const money = (n, compact=false) => new Intl.NumberFormat('en-US', {
   style:'currency', currency:'USD', maximumFractionDigits:0,
@@ -146,38 +147,86 @@ function chartFont() {
   return "'Bernina Sans Condensed','Arial Narrow',Arial,sans-serif";
 }
 
+function preparePrintCanvas(id, width=350, height=175) {
+  const canvas = $(id);
+  if (!canvas || !printChartMode) return;
+  canvas.width = width;
+  canvas.height = height;
+}
+
 function updateCharts(dciTotal, altTotal, labels, profitSeries) {
   if (typeof Chart === 'undefined') return;
   const styles = getComputedStyle(document.documentElement);
   const dciBlue = styles.getPropertyValue('--dci-blue').trim() || '#3a6d8e';
   const dciGray = styles.getPropertyValue('--dci-gray').trim() || '#54565b';
+  const printMode = printChartMode;
+
+  if (printMode) {
+    preparePrintCanvas('costChart');
+    preparePrintCanvas('profitChart');
+  }
 
   const common = {
-    responsive:true,
+    responsive:!printMode,
     maintainAspectRatio:false,
+    animation: printMode ? false : undefined,
+    layout: printMode ? {padding:{top:2,right:7,bottom:8,left:3}} : {},
     plugins:{
-      legend:{labels:{usePointStyle:true,boxWidth:8,font:{family:chartFont(),size:13}}},
-      tooltip:{titleFont:{family:chartFont()},bodyFont:{family:chartFont()},callbacks:{label:c=>`${c.dataset.label}: ${money(c.raw)}`}}
+      legend:{
+        labels:{
+          usePointStyle:true,
+          boxWidth:8,
+          font:{family:chartFont(),size:printMode ? 9 : 13},
+          padding:printMode ? 8 : 10
+        }
+      },
+      tooltip:{enabled:!printMode,titleFont:{family:chartFont()},bodyFont:{family:chartFont()},callbacks:{label:c=>`${c.dataset.label}: ${money(c.raw)}`}}
     },
     scales:{
-      y:{ticks:{callback:v=>money(v,true),font:{family:chartFont()}},grid:{color:'#e5e7e8'}},
-      x:{ticks:{font:{family:chartFont()}},grid:{display:false}}
+      y:{
+        ticks:{callback:v=>money(v,true),font:{family:chartFont(),size:printMode ? 8 : 12},maxTicksLimit:printMode ? 6 : undefined},
+        grid:{color:'#e5e7e8'}
+      },
+      x:{
+        ticks:{
+          font:{family:chartFont(),size:printMode ? 8 : 12},
+          autoSkip:true,
+          maxTicksLimit:printMode ? 6 : undefined,
+          maxRotation:0,
+          minRotation:0,
+          padding:printMode ? 4 : 3
+        },
+        grid:{display:false}
+      }
     }
   };
 
   if (costChart) costChart.destroy();
   costChart = new Chart($('costChart'), {
     type:'bar',
-    data:{labels:['DCI Edge','Alternative Brand'],datasets:[{label:'Equipment investment',data:[dciTotal,altTotal],backgroundColor:[dciBlue,dciGray],borderRadius:2}]},
+    data:{labels:printMode ? ['DCI Edge','Alternative'] : ['DCI Edge','Alternative Brand'],datasets:[{label:'Equipment investment',data:[dciTotal,altTotal],backgroundColor:[dciBlue,dciGray],borderRadius:2,maxBarThickness:printMode ? 74 : undefined}]},
     options:{...common,plugins:{...common.plugins,legend:{display:false}}}
   });
 
   if (profitChart) profitChart.destroy();
   profitChart = new Chart($('profitChart'), {
     type:'line',
-    data:{labels,datasets:[{label:'Cumulative additional operating profit',data:profitSeries,borderColor:dciBlue,backgroundColor:'rgba(58,109,142,.12)',fill:true,tension:.22,pointRadius:2}]},
+    data:{labels,datasets:[{label:'Cumulative additional operating profit',data:profitSeries,borderColor:dciBlue,backgroundColor:'rgba(58,109,142,.12)',fill:true,tension:.22,pointRadius:printMode ? 1.5 : 2}]},
     options:common
   });
+}
+
+function prepareChartsForPrint() {
+  printChartMode = true;
+  document.documentElement.classList.add('print-prep');
+  calculate();
+}
+
+function restoreChartsAfterPrint() {
+  if (!printChartMode) return;
+  printChartMode = false;
+  document.documentElement.classList.remove('print-prep');
+  calculate();
 }
 
 function revealResults() {
@@ -210,8 +259,10 @@ window.addEventListener('DOMContentLoaded', () => {
   $('resetButton').addEventListener('click', reset);
   $('printButton').addEventListener('click', () => {
     if (!hasRevealed) revealResults();
-    setTimeout(() => window.print(), 250);
+    prepareChartsForPrint();
+    requestAnimationFrame(() => requestAnimationFrame(() => window.print()));
   });
+  window.addEventListener('afterprint', restoreChartsAfterPrint);
   $('currentYear').textContent = new Date().getFullYear();
   calculate();
 });
