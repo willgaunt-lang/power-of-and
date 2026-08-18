@@ -233,3 +233,100 @@ footer{background:var(--dci-gray);color:#fff;text-align:center;padding:48px 20px
   .unbooked-page .method-card{margin-top:.20in!important}
   .timeline-card{margin-top:.03in!important}
 }
+
+
+/* v0.6.13 — Safari desktop print cleanup: compact metrics + print-safe timeline bars */
+@media print{
+  .metric-grid,
+  .unbooked-metrics{
+    width:100%!important;
+    max-width:100%!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:.08in!important;
+  }
+  .metric-card{
+    width:auto!important;
+    min-width:0!important;
+    max-width:100%!important;
+    padding:.11in!important;
+  }
+  .metric-card strong{
+    font-size:20pt!important;
+    letter-spacing:-.45pt!important;
+    white-space:nowrap!important;
+  }
+  .unbooked-metrics .metric-card strong{
+    font-size:19pt!important;
+  }
+  .unbooked-metrics .metric-featured strong{
+    font-size:18pt!important;
+  }
+  .wealth-breakdown{
+    min-width:0!important;
+  }
+  .wealth-breakdown span{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    align-items:start!important;
+    gap:3pt!important;
+    min-width:0!important;
+    font-size:6.8pt!important;
+  }
+  .wealth-breakdown b{
+    white-space:nowrap!important;
+    font-size:6.8pt!important;
+  }
+
+  /* Do not depend on background printing for the operatory timeline. */
+  .timeline-card{
+    overflow:visible!important;
+  }
+  .timeline{
+    width:100%!important;
+    max-width:100%!important;
+    gap:4pt!important;
+  }
+  .timeline-row{
+    display:grid!important;
+    grid-template-columns:.52in minmax(0,1fr) minmax(0,1fr)!important;
+    gap:7pt!important;
+    align-items:center!important;
+    width:100%!important;
+    max-width:100%!important;
+  }
+  .timeline-label{
+    font-size:7pt!important;
+    white-space:nowrap!important;
+  }
+  .op-track{
+    height:17px!important;
+    overflow:visible!important;
+    background:transparent!important;
+    border-bottom:1px solid #d8dcde!important;
+    position:relative!important;
+  }
+  .op-bar{
+    height:16px!important;
+    min-width:0!important;
+    background:transparent!important;
+    padding:0 2pt!important;
+    display:flex!important;
+    align-items:flex-start!important;
+    overflow:visible!important;
+    white-space:nowrap!important;
+    font-size:6.6pt!important;
+    line-height:9pt!important;
+    border:0!important;
+    border-bottom:5px solid currentColor!important;
+    -webkit-print-color-adjust:exact!important;
+    print-color-adjust:exact!important;
+  }
+  .op-bar.dci{
+    color:#3a6d8e!important;
+    background:transparent!important;
+  }
+  .op-bar.alt{
+    color:#54565b!important;
+    background:transparent!important;
+  }
+}

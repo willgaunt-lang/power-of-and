@@ -67,3 +67,6 @@ Update v0.6.11: corrected the circular AND marker on the Unbooked Operatory flow
 - Keeps year/category labels attached to the correct chart in print previews.
 - Shortens print-only chart labels and prevents chart canvases from overlapping the methodology section.
 - Adds cache-busting version strings to CSS/JS references.
+
+
+Update v0.6.13: tightened desktop print metric cards and converted the More Rooms operatory timeline to print-safe outlined/line bars that remain visible even when Safari's Print backgrounds option is off.
