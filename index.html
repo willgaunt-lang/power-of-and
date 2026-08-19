@@ -7,9 +7,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="description" content="The Power of AND practice investment calculator from DCI Edge." />
   <title>The Power of AND | Practice Investment Calculator</title>
-  <link rel="stylesheet" href="styles.css?v=0615" />
+  <link rel="stylesheet" href="styles.css?v=0616" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
-  <script src="script.js?v=0615" defer></script>
+  <script src="script.js?v=0616" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -57,10 +57,10 @@
             <p>How many operatories does each option put into service today?</p>
           </div>
           <div class="input-grid two-col">
-            <label>DCI Edge operatories<input id="dciRooms" type="number" min="1" max="30" step="1" value="5"></label>
-            <label>DCI Edge cost per operatory<div class="input-prefix"><span>$</span><input id="dciCost" type="number" min="0" step="1000" value="22000"></div></label>
-            <label>Alternative operatories<input id="altRooms" type="number" min="1" max="30" step="1" value="3"></label>
-            <label>Alternative cost per operatory<div class="input-prefix"><span>$</span><input id="altCost" type="number" min="0" step="1000" value="37000"></div></label>
+            <label>DCI Edge operatories<input id="dciRooms" type="number" inputmode="numeric" min="1" max="30" step="1" value="5"></label>
+            <label>DCI Edge cost per operatory<div class="input-prefix"><span>$</span><input id="dciCost" class="formatted-money" type="text" inputmode="numeric" pattern="[0-9,]*" value="22,000" autocomplete="off"></div></label>
+            <label>Alternative operatories<input id="altRooms" type="number" inputmode="numeric" min="1" max="30" step="1" value="3"></label>
+            <label>Alternative cost per operatory<div class="input-prefix"><span>$</span><input id="altCost" class="formatted-money" type="text" inputmode="numeric" pattern="[0-9,]*" value="37,000" autocomplete="off"></div></label>
           </div>
         </article>
 
@@ -71,10 +71,10 @@
             <p>What does a productive operatory contribute to the practice?</p>
           </div>
           <div class="input-grid">
-            <label>Annual revenue per operatory<div class="input-prefix"><span>$</span><input id="revenuePerRoom" type="number" min="0" step="5000" value="250000"></div></label>
+            <label>Annual revenue per operatory<div class="input-prefix"><span>$</span><input id="revenuePerRoom" class="formatted-money" type="text" inputmode="numeric" pattern="[0-9,]*" value="250,000" autocomplete="off"></div></label>
             <div class="input-grid two-col compact-grid">
-              <label>Operating profit margin<div class="input-suffix"><input id="margin" type="number" min="0" max="100" step="1" value="35"><span>%</span></div></label>
-              <label>Annual revenue growth<div class="input-suffix"><input id="growth" type="number" min="0" max="30" step="0.5" value="3"><span>%</span></div></label>
+              <label>Operating profit margin<div class="input-suffix"><input id="margin" type="number" inputmode="decimal" min="0" max="100" step="1" value="35"><span>%</span></div></label>
+              <label>Annual revenue growth<div class="input-suffix"><input id="growth" type="number" inputmode="decimal" min="0" max="30" step="0.5" value="3"><span>%</span></div></label>
             </div>
           </div>
         </article>
@@ -112,9 +112,9 @@
             <p>How much time does the financial difference have to compound?</p>
           </div>
           <div class="input-grid two-col">
-            <label>Current age<input id="currentAge" type="number" min="18" max="80" step="1" value="42"></label>
-            <label>Retirement age<input id="retirementAge" type="number" min="19" max="90" step="1" value="65"></label>
-            <label class="span-two">Expected annual investment return<div class="input-suffix"><input id="returnRate" type="number" min="0" max="20" step="0.5" value="7"><span>%</span></div></label>
+            <label>Current age<input id="currentAge" type="number" inputmode="numeric" min="18" max="80" step="1" value="42"></label>
+            <label>Retirement age<input id="retirementAge" type="number" inputmode="numeric" min="19" max="90" step="1" value="65"></label>
+            <label class="span-two">Expected annual investment return<div class="input-suffix"><input id="returnRate" type="number" inputmode="decimal" min="0" max="20" step="0.5" value="7"><span>%</span></div></label>
           </div>
         </article>
       </div>

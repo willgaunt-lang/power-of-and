@@ -76,3 +76,6 @@ Update v0.6.14: made the Unbooked Operatory desktop-print metric cards a fixed, 
 
 
 v0.6.15: fixed Safari desktop print clipping with a fixed 7-inch report width, simplified print metric cards, and smaller print-specific chart canvases.
+
+
+Version 0.6.16: improved mobile data entry with numeric/decimal iPhone keyboards, explicit 16px mobile form controls to prevent Safari input zoom, and comma formatting for currency/large-number fields.

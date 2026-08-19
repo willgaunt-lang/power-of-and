@@ -24,7 +24,46 @@ const money = (n, compact=false) => new Intl.NumberFormat('en-US', {
   style:'currency', currency:'USD', maximumFractionDigits:0,
   notation:compact ? 'compact' : 'standard'
 }).format(Math.abs(n) || 0);
-const num = id => Number($(id).value) || 0;
+const num = id => Number(String($(id).value).replace(/,/g,'')) || 0;
+
+function formatMoneyField(el) {
+  if (!el) return;
+  const original = String(el.value);
+  const caret = typeof el.selectionStart === 'number' ? el.selectionStart : original.length;
+  const digitsBeforeCaret = (original.slice(0, caret).match(/\d/g) || []).length;
+  const digits = original.replace(/\D/g, '');
+
+  if (!digits) {
+    el.value = '';
+    return;
+  }
+
+  const formatted = Number(digits).toLocaleString('en-US');
+  el.value = formatted;
+
+  if (document.activeElement === el && typeof el.setSelectionRange === 'function') {
+    let newCaret = 0;
+    let seenDigits = 0;
+    while (newCaret < formatted.length && seenDigits < digitsBeforeCaret) {
+      if (/\d/.test(formatted[newCaret])) seenDigits++;
+      newCaret++;
+    }
+    el.setSelectionRange(newCaret, newCaret);
+  }
+}
+
+function formatAllMoneyFields() {
+  document.querySelectorAll('.formatted-money').forEach(formatMoneyField);
+}
+
+function setupMoneyFieldFormatting() {
+  document.querySelectorAll('.formatted-money').forEach(el => {
+    formatMoneyField(el);
+    el.addEventListener('input', () => formatMoneyField(el));
+    el.addEventListener('blur', () => formatMoneyField(el));
+  });
+}
+
 const plural = (n, one, many=`${one}s`) => Math.abs(n) === 1 ? one : many;
 
 function alternativeRoomsAtSnapshot(timeYears, startingRooms, targetRooms, delay) {
@@ -242,6 +281,7 @@ function revealResults() {
 
 function reset() {
   Object.entries(defaults).forEach(([key,value]) => $(key).value = value);
+  formatAllMoneyFields();
   hasRevealed = false;
   $('results').hidden = true;
   $('results').classList.remove('revealed');
@@ -251,6 +291,7 @@ function reset() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  setupMoneyFieldFormatting();
   inputIds.forEach(id => $(id).addEventListener('input', () => {
     if (hasRevealed) calculate();
   }));
