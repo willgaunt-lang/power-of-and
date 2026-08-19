@@ -24,7 +24,7 @@ const defaults = {
   equipmentCost:50000,
   visitsPerWeek:4,
   productionPerVisit:200,
-  workingWeeks:49,
+  workingWeeks:50,
   variableCostPct:9,
   downPayment:0,
   apr:6.5,

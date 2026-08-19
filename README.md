@@ -85,3 +85,6 @@ Version 0.6.17 updates default scenarios: More Rooms now opens at 3 DCI rooms @ 
 
 
 Version 0.6.18 changes the default alternative catch-up timing from 2 years to 1.5 years.
+
+
+Version 0.6.19: restored the Unbooked Operatory default to 50 working weeks and clarified the No-Brainer Test ratio as Break-Even Utilization so the 3.1× result cannot be mistaken for ROI.
