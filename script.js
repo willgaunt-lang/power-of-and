@@ -15,7 +15,7 @@ if ('ResizeObserver' in window) {
 
 const $ = id => document.getElementById(id);
 const inputIds = ['dciRooms','dciCost','altRooms','altCost','revenuePerRoom','margin','growth','delayYears','currentAge','retirementAge','returnRate'];
-const defaults = {dciRooms:5,dciCost:22000,altRooms:3,altCost:37000,revenuePerRoom:250000,margin:35,growth:3,delayYears:'2',currentAge:42,retirementAge:65,returnRate:7};
+const defaults = {dciRooms:3,dciCost:24000,altRooms:2,altCost:36000,revenuePerRoom:250000,margin:35,growth:1.5,delayYears:'1.5',currentAge:35,retirementAge:65,returnRate:7};
 let costChart, profitChart;
 let hasRevealed = false;
 let printChartMode = false;

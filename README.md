@@ -79,3 +79,9 @@ v0.6.15: fixed Safari desktop print clipping with a fixed 7-inch report width, s
 
 
 Version 0.6.16: improved mobile data entry with numeric/decimal iPhone keyboards, explicit 16px mobile form controls to prevent Safari input zoom, and comma formatting for currency/large-number fields.
+
+
+Version 0.6.17 updates default scenarios: More Rooms now opens at 3 DCI rooms @ $24,000 vs 2 Alternative rooms @ $36,000, 1.5% annual revenue growth, age 35 / retirement 65, 7% return. Unbooked working weeks default changed from 50 to 49.
+
+
+Version 0.6.18 changes the default alternative catch-up timing from 2 years to 1.5 years.
